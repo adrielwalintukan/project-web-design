@@ -189,7 +189,7 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 - Helper di `src/lib/format.js`: `formatRupiah(n)`, `normalizePhone(input)` (dipakai juga untuk validasi input No. WA di form booking), `waLink(phone, text)`, `imageSrcSet(src)`, dan konstanta `ADMIN_PHONE`.
 - `src/data/kosts.test.js` memvalidasi setiap kost (id unik, foto ada, fasilitas dikenal, kontak valid). Jalankan `npm test` setiap kali data diubah.
 - **Status data (fase 3):** 20 kost sudah dimigrasi. 12 kost belum punya kontak (diarahkan ke admin), Anugerah Wisma belum punya peta, dan kontak Wullur dan Mizpa perlu diverifikasi karena terlihat seperti nomor contoh.
-- Foto: 37 file (21 MB) dikompres menjadi 74 file WebP (4,7 MB) lewat `npm run images`.
+- Foto: 33 file (21 MB) dikompres menjadi 66 file WebP (4,7 MB) lewat `npm run images`.
 
 ---
 
