@@ -1,11 +1,15 @@
 // Kompres foto kost ke WebP di public/gambar.
-// Pemakaian: npm run images -- <folder-sumber>   (default: legacy/gambar)
+// Pemakaian: npm run images -- <folder-sumber>
 // Hasil per foto: <nama>.webp (lebar maks 1600 px) dan <nama>-sm.webp (640 px, untuk kartu & thumbnail)
 import { mkdir, readdir } from 'node:fs/promises'
 import { join, parse } from 'node:path'
 import sharp from 'sharp'
 
-const SOURCE = process.argv[2] ?? 'legacy/gambar'
+const SOURCE = process.argv[2]
+if (!SOURCE) {
+  console.error('Pemakaian: npm run images -- <folder-sumber>')
+  process.exit(1)
+}
 const OUT = 'public/gambar'
 const MAX_BYTES = 200 * 1024
 const variants = [

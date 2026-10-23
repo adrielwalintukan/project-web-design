@@ -32,7 +32,7 @@ Buka alamat yang muncul di terminal (biasanya http://localhost:5173).
 | `npm run preview` | Menjalankan hasil build secara lokal |
 | `npm run lint` | Cek kode dengan oxlint |
 | `npm test` | Tes helper dan validasi data kost (`node --test`) |
-| `npm run images -- <folder>` | Kompres foto ke WebP di `public/gambar` (default sumber: `legacy/gambar`) |
+| `npm run images -- <folder>` | Kompres foto JPG/PNG dari `<folder>` ke WebP di `public/gambar` |
 
 > Jangan membuka `index.html` langsung dengan double-click. Aplikasi harus dijalankan lewat `npm run dev` atau dari hasil deploy.
 
@@ -50,10 +50,23 @@ docs/       PRD dan Design System — baca ini dulu sebelum mengerjakan fitur
 public/     File statis: favicon dan foto kost (public/gambar)
 scripts/    Script bantu (kompres foto)
 src/        Kode aplikasi React
-legacy/     Website versi lama (HTML/CSS/JS). Hanya referensi selama migrasi, akan dihapus
 ```
 
-Struktur lengkap `src/` ada di [docs/PRD.md §8](docs/PRD.md).
+Struktur lengkap `src/` ada di [docs/PRD.md §8](docs/PRD.md). Website versi lama (HTML/CSS/JS) sudah dihapus; kodenya masih bisa dilihat di riwayat git (folder `legacy/` pada commit a4b89ac).
+
+## Deploy
+
+Situs ini statis (SPA), jadi bisa di-deploy gratis ke **Vercel** atau **Netlify** langsung dari repo GitHub:
+
+| Pengaturan | Nilai |
+|---|---|
+| Framework preset | Vite |
+| Build command | `npm run build` |
+| Output directory | `dist` |
+
+Rewrite SPA sudah disiapkan, jadi refresh langsung di `/kost/<id>` tidak menghasilkan 404: [vercel.json](vercel.json) untuk Vercel dan [public/_redirects](public/_redirects) untuk Netlify.
+
+Sebelum deploy, jalankan `npm run lint`, `npm test`, dan `npm run build`, lalu cek hasilnya dengan `npm run preview`.
 
 ## Dokumen
 

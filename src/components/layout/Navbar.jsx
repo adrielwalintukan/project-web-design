@@ -20,7 +20,7 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 h-14 border-b transition-colors duration-300 md:h-16 ${transparent ? 'border-transparent bg-transparent text-white' : 'border-line bg-surface text-ink'}`}
+      className={`sticky top-0 z-50 h-14 border-b transition-colors duration-300 md:h-16 ${transparent ? 'border-transparent bg-transparent text-white [&_:focus-visible]:outline-white' : 'border-line bg-surface text-ink'}`}
     >
       <Container className="flex h-full items-center justify-between">
         <Link to="/" className="text-lg font-extrabold tracking-tight">

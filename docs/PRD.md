@@ -279,18 +279,18 @@ src/
 
 ## 10. Checklist QA (Definition of Done)
 
-- [ ] `npm run build` sukses dan `npm run lint` tanpa error.
-- [ ] Tidak ada error di console di semua route.
-- [ ] Refresh langsung di `/kost/kostWullur` pada URL deploy tidak menghasilkan 404.
-- [ ] Navbar terbaca, bottom tab bar berfungsi, dan tidak tertutup home indicator di 360, 390, dan 412 px.
-- [ ] Tidak ada scroll horizontal di 360 px.
-- [ ] Semua poin §7.1 terpenuhi: feedback tekan, transisi halaman, skeleton, swipe galeri, keyboard HP sesuai.
-- [ ] Dengan "kurangi gerakan" aktif, tidak ada animasi yang berjalan.
-- [ ] Pencarian, filter, dan urutkan memberi hasil benar. URL bisa dibagikan.
-- [ ] Semua 20 kost bisa dibuka detailnya dan gambar tampil. ID salah menampilkan "Kost tidak ditemukan".
-- [ ] Pesan Sekarang → booking dengan kost sudah terpilih.
-- [ ] Validasi booking menolak input salah. Pesan WhatsApp lengkap.
-- [ ] Kalkulator menolak nilai ≤ 0 dan menampilkan format Rupiah.
-- [ ] Semua kontrol bisa diakses dengan Tab dan focus terlihat.
+- [x] `npm run build` sukses dan `npm run lint` tanpa error.
+- [x] Tidak ada error di console di semua route (dicek di build produksi lewat `npm run preview`).
+- [ ] Refresh langsung di `/kost/kostWullur` pada URL deploy tidak menghasilkan 404. *Rewrite sudah disiapkan (`vercel.json`, `public/_redirects`); dicek setelah deploy.*
+- [ ] Navbar terbaca, bottom tab bar berfungsi, dan tidak tertutup home indicator di 360, 390, dan 412 px. *Dicek di emulasi 360/375 px dengan `safe-area-inset`; belum di HP asli.*
+- [x] Tidak ada scroll horizontal di 360 px (semua route).
+- [x] Semua poin §7.1 terpenuhi: feedback tekan, transisi halaman, swipe galeri, keyboard HP sesuai. *Skeleton tidak diperlukan: data lokal, tidak ada status memuat selain progress bar route.*
+- [ ] Dengan "kurangi gerakan" aktif, tidak ada animasi yang berjalan. *Aturan CSS `prefers-reduced-motion` ada di build; belum dicoba di perangkat.*
+- [x] Pencarian, filter, dan urutkan memberi hasil benar. URL bisa dibagikan.
+- [x] Semua 20 kost bisa dibuka detailnya dan gambar tampil. ID salah menampilkan "Kost tidak ditemukan".
+- [x] Pesan Sekarang → booking dengan kost sudah terpilih.
+- [x] Validasi booking menolak input salah. Pesan WhatsApp lengkap.
+- [x] Kalkulator menolak nilai ≤ 0 dan menampilkan format Rupiah.
+- [x] Semua kontrol bisa diakses dengan Tab dan focus terlihat (outline putih di atas hero).
 - [ ] Lighthouse ≥ 90 (Performance, Accessibility, Best Practices) di beranda.
-- [ ] Folder `legacy/` dan file lama sudah dihapus.
+- [x] Folder `legacy/` dan file lama sudah dihapus.
