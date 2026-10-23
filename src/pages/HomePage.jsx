@@ -92,8 +92,10 @@ export default function HomePage() {
 
         <Container className="pb-12">
           <div className="flex items-center justify-between gap-4 py-4">
-            <h2 id="hasil-judul" className="text-sm text-muted" aria-live="polite">
-              <span className="font-semibold text-ink tabular-nums">{results.length}</span> kost ditemukan
+            <h2 id="hasil-judul" className="text-sm whitespace-nowrap text-muted" aria-live="polite">
+              <span className="font-semibold text-ink tabular-nums">{results.length}</span> kost
+              {/* HP sempit: Reset + Urutkan butuh tempat; kata ini tetap dibacakan screen reader */}
+              <span className="max-sm:sr-only"> ditemukan</span>
             </h2>
             <div className="flex items-center gap-1">
               {hasFilter && (

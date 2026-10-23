@@ -1,0 +1,24 @@
+{
+  "name": "kostfinder-video",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "remotion studio",
+    "capture": "node scripts/capture.mjs",
+    "music": "node scripts/music.mjs 62",
+    "render": "remotion render Promo out/promo.mp4",
+    "still": "remotion still Promo out/still.png"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.537",
+    "@remotion/google-fonts": "4.0.537",
+    "@remotion/transitions": "4.0.537",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.537"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "typescript": "^5"
+  }
+}
