@@ -3,7 +3,7 @@ export default function Chip({ active = false, className = '', ...props }) {
     <button
       type="button"
       aria-pressed={active}
-      className={`h-9 shrink-0 rounded-full px-4 text-sm font-medium transition-[color,background-color,transform] duration-200 active:scale-95 ${active ? 'bg-primary-600 text-white' : 'bg-slate-100 text-ink hover:bg-slate-200'} ${className}`}
+      className={`h-9 shrink-0 rounded-full border px-4 text-sm font-medium transition-[color,background-color,border-color,transform] duration-200 active:scale-95 ${active ? 'border-ink bg-ink text-white' : 'border-line bg-surface text-ink hover:border-line-strong'} ${className}`}
       {...props}
     />
   )

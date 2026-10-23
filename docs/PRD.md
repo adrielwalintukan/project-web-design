@@ -116,12 +116,12 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 - Hero dengan judul, subjudul, dan kolom pencarian. Slider background tetap boleh dipakai, tetapi harus ada overlay agar teks terbaca, dan dimatikan jika `prefers-reduced-motion`.
 - Grid kartu kost dari `src/data/kosts.js`.
 - **Pencarian** berdasarkan nama atau alamat, dengan debounce sekitar 200 ms.
-- **Filter** (P0): tipe (Semua / Pria / Wanita), rentang harga (≤ 400rb, 400–700rb, > 700rb).
+- **Filter** (P0): tipe (Semua / Putra / Putri; di URL tetap `pria`/`wanita`), rentang harga (≤ 400rb, 400–700rb, > 700rb).
 - **Urutkan** (P1): harga termurah, harga termahal, nama A–Z.
 - Menampilkan jumlah hasil ("12 kost ditemukan") dan empty state dengan tombol "Reset filter".
 - Kata kunci dan filter disimpan di URL (`?q=&type=&price=&sort=`) lewat `useSearchParams`, sehingga bisa dibagikan dan tetap ada saat tombol Back ditekan. Ini menggantikan `search.html`.
 
-**AC:** mengetik "wullur" menampilkan 1 kartu. Filter Wanita + > 700rb menampilkan Corner Residence, Topaz Place, Gazelle, dan Azalea Hall. Refresh halaman dengan `?type=pria` tetap menampilkan filter Pria aktif.
+**AC:** mengetik "wullur" menampilkan 1 kartu. Filter Putri + > 700rb menampilkan Corner Residence, Topaz Place, Gazelle, dan Azalea Hall. Refresh halaman dengan `?type=pria` tetap menampilkan filter Putra aktif.
 
 ### F2. Kartu Kost — P0
 - Berisi foto (rasio 4:3, `loading="lazy"`), badge tipe, nama, alamat singkat (maksimal 2 baris), harga per bulan, ukuran kamar, dan 2–3 fasilitas utama.

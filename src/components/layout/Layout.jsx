@@ -24,7 +24,7 @@ export default function Layout() {
         <div
           role="progressbar"
           aria-label="Memuat halaman"
-          className="fixed inset-x-0 top-0 z-60 h-0.5 origin-left animate-progress bg-primary-500"
+          className="fixed inset-x-0 top-0 z-60 h-0.5 origin-left animate-progress bg-primary-600"
         />
       )}
       <Navbar />

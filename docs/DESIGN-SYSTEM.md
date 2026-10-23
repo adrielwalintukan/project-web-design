@@ -2,7 +2,7 @@
 
 Pedoman visual dan komponen untuk refactor dengan **React + Vite + Tailwind CSS v4**.
 
-- Semua token didefinisikan **satu kali** di `src/index.css` lewat blok `@theme` milik Tailwind. Dari situ Tailwind otomatis membuat utility class seperti `bg-primary-600`, `text-muted`, `rounded-card`, dan `shadow-card`.
+- Semua token didefinisikan **satu kali** di `src/index.css` lewat blok `@theme` milik Tailwind. Dari situ Tailwind otomatis membuat utility class seperti `bg-primary-600`, `text-muted`, `rounded-card`, dan `shadow-raise`.
 - Komponen ditulis sebagai komponen React di `src/components/`. Halaman cukup menyusun komponen tersebut.
 - Tidak ada warna hex di `className`, tidak ada `style={{…}}` kecuali untuk nilai dinamis, dan tidak ada file CSS per halaman.
 
@@ -12,79 +12,79 @@ Kebutuhan fungsional dan struktur folder ada di [PRD.md](PRD.md).
 
 ## 1. Prinsip
 
-1. **Foto adalah bintangnya.** Kost dipilih dari foto, jadi UI di sekitarnya dibuat tenang dan netral, dengan satu warna aksen.
-2. **Jelas dulu, efek kemudian.** Efek kaca (glassmorphism) dan teks putih di atas foto hanya di hero. Halaman lain memakai permukaan solid agar teks selalu terbaca (masalah navbar B2 di PRD).
+1. **Foto adalah bintangnya.** Kost dipilih dari foto, jadi UI di sekitarnya dibuat tenang dan netral. Hanya ada satu warna aksen, dan dipakai hemat.
+2. **Jelas dulu, efek kemudian.** Teks putih di atas foto hanya di hero, selalu dengan overlay gelap solid. Halaman lain memakai permukaan solid agar teks selalu terbaca (masalah navbar B2 di PRD).
 3. **Mobile adalah produk utama.** Desain dan uji di 360–412 px dulu, desktop menyusul. Tulis class tanpa prefix untuk mobile, lalu tambahkan `md:` dan `lg:`. Navigasi dan aksi utama selalu di zona jempol (bawah layar).
 4. **Konsisten.** Satu `<Button>`, satu `<Field>`, satu `<Navbar>`. Jika sebuah pola dipakai dua kali, jadikan komponen.
 5. **Terasa hidup.** Setiap sentuhan dibalas (tekan, transisi, loading), tapi animasi singkat dan tidak menghalangi. Standar lengkap di PRD §7.1.
+
+### 1.1 Anti "AI slop" (wajib)
+
+Tampilan generik hasil template atau AI mudah dikenali. Aturan berikut menjaga UI tetap bersih dan punya karakter sendiri.
+
+| Jangan | Lakukan |
+|---|---|
+| Gradien di latar, tombol, atau teks | Warna solid. Hierarki dibangun lewat ukuran, ketebalan font, dan jarak |
+| Glassmorphism, `backdrop-blur`, glow, bayangan berwarna | Permukaan solid `bg-surface` dengan `border-line`. Bayangan `shadow-raise` hanya untuk lapisan yang melayang (toast, dialog, search bar di atas foto) |
+| Aksen di mana-mana (logo, judul, latar section, ikon dekoratif) | Aksen hijau **hanya** untuk: tombol utama, link di dalam teks, status aktif (tab, focus), dan progress. Maksimal ±10% layar |
+| Kata berwarna di judul ("Cari Kost? *Lebih Mudah.*") | Judul satu warna, berisi informasi nyata ("Kost ter-approve di sekitar UNKLAB") |
+| Badge biru untuk pria, pink untuk wanita | Badge netral dengan istilah pasar: **Putra / Putri** |
+| Semua elemen `rounded-full` atau `rounded-2xl` | Skala radius terbatas: `rounded-md` (badge), `rounded-lg` (tombol, input), `rounded-card` 12 px (kartu, foto). `rounded-full` hanya untuk chip filter dan indikator |
+| Animasi memantul (spring), zoom besar, kartu terangkat jauh | Gerakan pendek dan halus: fade dan geser 8 px, scale ≥ 0.96 |
+| Emoji atau ikon dekoratif di samping setiap judul | Ikon hanya jika membantu memindai (fasilitas, alamat, tab). Lucide, `strokeWidth` 1.75 |
+| Copy hiperbola: "terbaik", "nomor 1", "aman, terpercaya, dan mudah" | Copy spesifik dan bisa dibuktikan: harga, jumlah kost, jarak, fasilitas |
+| Section "fitur" dengan 3 kartu ikon yang isinya sama | Tampilkan data asli (kost, harga, foto) secepat mungkin |
 
 ---
 
 ## 2. Token (`src/index.css`)
 
 ```css
-@import "tailwindcss";
-
 @theme {
-  /* ---------- Warna ---------- */
-  --color-primary-50:  #EEF4FF;
-  --color-primary-100: #DCE7FE;
-  --color-primary-500: #3B6FF6;
-  --color-primary-600: #2453E0;   /* tombol utama, link */
-  --color-primary-700: #1C40B0;   /* hover */
+  /* Netral hangat — hampir semua permukaan dan teks */
+  --color-page:        #FAFAF9;  /* latar halaman */
+  --color-surface:     #FFFFFF;  /* kartu, navbar, bottom nav */
+  --color-hover:       #F5F5F4;  /* hover tombol sekunder, skeleton */
+  --color-line:        #E7E5E4;  /* pemisah dekoratif */
+  --color-line-strong: #8A847F;  /* batas input — 3.7:1 */
+  --color-ink:         #1C1917;  /* teks utama — 16.7:1 */
+  --color-muted:       #57534E;  /* teks sekunder — 7.3:1 */
+  --color-subtle:      #78716C;  /* placeholder, ikon nonaktif — 4.8:1 */
 
-  --color-accent-500:  #F59E0B;   /* highlight, badge "Baru" */
+  /* Satu aksen: hijau Klabat */
+  --color-primary-50:  #EEF3F0;  /* latar ringan (jarang) */
+  --color-primary-600: #1F5C46;  /* tombol utama, aktif — putih di atasnya 7.8:1 */
+  --color-primary-700: #174837;  /* hover */
 
-  --color-whatsapp:       #25D366;
-  --color-whatsapp-hover: #1EBE5A;
+  --color-danger:   #B42318;     /* error — 6.6:1 */
+  --color-whatsapp: #1C9C4F;     /* ikon WA; hijau brand #25D366 hanya 2:1 di atas putih */
 
-  --color-pria-bg:   #E0EDFF;  --color-pria-fg:   #1D4ED8;
-  --color-wanita-bg: #FDE7F1;  --color-wanita-fg: #BE185D;
-
-  /* Alias peran → class: bg-page, bg-surface, border-line, text-ink, text-muted */
-  --color-page:    #F8FAFC;   /* = slate-50 */
-  --color-surface: #FFFFFF;
-  --color-line:    #E2E8F0;   /* = slate-200 */
-  --color-ink:     #0F172A;   /* = slate-900 */
-  --color-muted:   #475569;   /* = slate-600 */
-
-  /* ---------- Tipografi ---------- */
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --text-hero: clamp(2.25rem, 1.4rem + 4vw, 3.75rem);
-  --text-hero--line-height: 1.1;
+  --text-hero: clamp(2rem, 1.3rem + 3.5vw, 3.25rem);
 
-  /* ---------- Radius & bayangan ---------- */
-  --radius-card: 1rem;       /* 16 px → rounded-card */
-  --radius-panel: 1.5rem;    /* 24 px → rounded-panel */
-  --shadow-card:  0 1px 2px rgb(15 23 42 / .06);
-  --shadow-raise: 0 12px 32px rgb(15 23 42 / .12);
-
-  /* ---------- Motion ---------- */
-  --ease-out-soft: cubic-bezier(.2, .8, .2, 1);
-}
-
-@layer base {
-  html { @apply bg-page text-ink antialiased; }
-  :focus-visible { @apply outline-2 outline-offset-2 outline-primary-500; }
+  --radius-card: 0.75rem;                          /* 12 px */
+  --shadow-raise: 0 8px 24px rgb(28 25 23 / .08);  /* hanya lapisan melayang */
 }
 ```
 
-Palet slate, skala spacing (4 px), breakpoint, dan radius standar (`rounded-lg`, `rounded-xl`, `rounded-full`) sudah bawaan Tailwind, jadi tidak perlu ditulis ulang.
+Skala spacing (4 px), breakpoint, dan radius standar (`rounded-md`, `rounded-lg`, `rounded-full`) memakai bawaan Tailwind. **Palet bawaan Tailwind (`slate-*`, `blue-*`, dst.) tidak dipakai di komponen.** Semua warna lewat token di atas, supaya palet bisa diganti dari satu tempat.
 
 ### 2.1 Pemakaian warna
 
 | Peran | Class |
 |---|---|
 | Background halaman | `bg-page` |
-| Kartu, navbar solid, modal | `bg-surface border border-line` |
+| Kartu, navbar, bottom nav | `bg-surface border border-line` |
 | Judul & body | `text-ink` |
 | Alamat, label sekunder | `text-muted` |
-| Tombol utama, link, filter aktif | `bg-primary-600 hover:bg-primary-700 text-white` |
-| Harga | `text-ink font-bold` (lebih mudah dibaca daripada teks berwarna) |
-| Hubungi Pemilik | `bg-whatsapp hover:bg-whatsapp-hover text-white` |
-| Error form | `text-red-600 border-red-600` |
+| Placeholder, ikon nonaktif, copyright | `text-subtle` |
+| Tombol utama, tab aktif, focus | `bg-primary-600 hover:bg-primary-700 text-white` / `text-primary-600` |
+| Filter aktif | `bg-ink text-white` (netral, aksen disimpan untuk aksi) |
+| Harga | `text-ink font-bold tabular-nums` |
+| Hubungi Pemilik (WA) | Tombol `secondary` + ikon `text-whatsapp`. Tidak ada tombol hijau kedua di samping tombol utama |
+| Error form | `text-danger border-danger` |
 
-Palet lama (`#6C63FF` ungu + teal) diganti dengan biru yang lebih tenang dan dapat dipercaya. Semua pasangan teks/latar di atas memenuhi kontras WCAG AA (≥ 4.5:1).
+Riwayat: v1 memakai ungu `#6C63FF` + teal dengan gradien. Draft awal v2 memakai biru `#2453E0`, yang terlalu mirip `blue-600` bawaan Tailwind. Versi final: netral hangat + hijau Klabat.
 
 > **Dark mode:** di luar scope v2. Karena komponen memakai alias peran (`bg-surface`, `text-ink`), dark mode nanti cukup dibuat dengan mendefinisikan ulang alias tersebut.
 
@@ -103,14 +103,14 @@ Satu keluarga font: **Plus Jakarta Sans** (dibuat oleh desainer Indonesia), meng
 | Elemen | Class |
 |---|---|
 | Hero h1 | `text-hero font-extrabold tracking-tight` |
-| Judul halaman h1 | `text-3xl md:text-4xl font-bold` |
+| Judul halaman h1 | `text-2xl md:text-4xl font-bold tracking-tight` |
 | Judul section h2 | `text-2xl md:text-3xl font-bold` |
 | Judul kartu | `text-lg font-bold line-clamp-1` |
 | Body | `text-base` (16 px), `leading-relaxed` untuk paragraf panjang |
 | Label / meta | `text-sm font-medium text-muted` |
 | Badge / caption | `text-xs font-semibold` |
 
-Nama kost ditulis **Title Case** di data ("Kost Wullur"), bukan huruf kapital semua.
+Nama kost ditulis **Title Case** di data ("Kost Wullur"), bukan huruf kapital semua. Angka harga memakai `tabular-nums` agar sejajar di daftar.
 
 ---
 
@@ -127,7 +127,7 @@ Nama kost ditulis **Title Case** di data ("Kost Wullur"), bukan huruf kapital se
 
 ## 5. Ikon & Gambar
 
-- **Ikon:** `lucide-react` (`<MapPin size={16} aria-hidden />`). Ukuran 16/20/24. Logo WhatsApp dibuat sebagai komponen `<WhatsAppIcon />` (SVG inline), karena Lucide tidak menyediakan ikon brand.
+- **Ikon:** `lucide-react` (`<MapPin size={16} aria-hidden />`). Ukuran 16/20/24, `strokeWidth` 1.75 (2.25 untuk status aktif). Logo WhatsApp dibuat sebagai komponen `<WhatsAppIcon />` (SVG inline), karena Lucide tidak menyediakan ikon brand.
 - **Map fasilitas → ikon** disimpan di satu tempat (`src/lib/facilities.js`):
 
 | Key | Label | Ikon Lucide |
@@ -158,18 +158,21 @@ Setiap komponen menerima `className` tambahan dan meneruskan props lain (`...pro
 ```jsx
 <Button>Cari</Button>
 <Button variant="secondary" size="sm">Reset filter</Button>
-<Button variant="whatsapp" as="a" href={waLink(...)} target="_blank">Hubungi Pemilik</Button>
+<Button variant="secondary" as="a" href={waLink(...)} target="_blank" rel="noopener noreferrer">
+  <WhatsAppIcon className="text-whatsapp" /> Hubungi Pemilik
+</Button>
 <Button as={Link} to={`/booking?kost=${id}`} block>Pesan Sekarang</Button>
 ```
 
 | Prop `variant` | Class |
 |---|---|
 | `primary` (default) | `bg-primary-600 text-white hover:bg-primary-700` |
-| `secondary` | `bg-surface text-ink border border-line hover:bg-slate-50` |
-| `whatsapp` | `bg-whatsapp text-white hover:bg-whatsapp-hover` |
-| `ghost` | `text-primary-600 hover:bg-primary-50` |
+| `secondary` | `bg-surface text-ink border border-line-strong/50 hover:bg-hover` |
+| `ghost` | `text-ink hover:bg-hover` |
 
-- Dasar: `inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed`.
+Satu layar sebaiknya hanya punya **satu** tombol `primary`.
+
+- Dasar: `inline-flex items-center justify-center gap-2 rounded-lg font-semibold active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`.
 - `size`: `md` = `h-11 px-5` (44 px, target sentuh minimum), `sm` = `h-9 px-4 text-sm`. `block` menambah `w-full`.
 - Prop `as` dipakai untuk merender `<a>` atau `<Link>`. Gunakan `<button>` untuk aksi dan link untuk navigasi.
 
@@ -181,24 +184,24 @@ Setiap komponen menerima `className` tambahan dan meneruskan props lain (`...pro
 ```
 
 - Merender `<label htmlFor>`, `<input id aria-invalid aria-describedby>`, dan `<p id="…-error">` saat ada error. `id` dibuat otomatis dengan `useId()`.
-- Input: `h-12 w-full rounded-lg border border-line bg-surface px-4 focus:border-primary-500 focus:ring-4 focus:ring-primary-500/20`. Saat error: `border-red-600`.
+- Input: `h-12 w-full rounded-lg border border-line-strong bg-surface px-4 placeholder:text-subtle focus:border-primary-600 focus:ring-4 focus:ring-primary-600/15`. Saat error: `border-danger`, pesan `text-danger animate-fade-in`.
 - Varian `<SelectField>` untuk dropdown. Prop `prefix="Rp"` untuk input harga.
 
 ### 6.3 `<SearchBar>` (hero)
 
-`<form role="search">` berbentuk pill putih (`rounded-full shadow-raise p-2 flex`) berisi ikon `Search`, input, dan `<Button>`. Di < 640 px tombol hanya menampilkan ikon (dengan `aria-label="Cari"`). Submit memperbarui `?q=` di URL.
+`<form role="search">` berupa kotak putih (`rounded-xl bg-surface shadow-raise p-1.5 flex`) berisi ikon `Search`, input, dan `<Button>`. Di < 640 px tombol hanya menampilkan ikon (dengan `aria-label="Cari"`). Submit memperbarui `?q=` di URL.
 
 ### 6.4 `<FilterBar>` + `<Chip>`
 
-- Satu baris yang bisa di-scroll horizontal di HP (`flex gap-2 overflow-x-auto`): `Semua · Pria · Wanita | ≤ 400rb · 400–700rb · > 700rb`, ditambah `<select>` Urutkan di kanan, serta teks "12 kost ditemukan".
-- `<Chip active>` merender `<button aria-pressed>` dengan class `h-9 px-4 rounded-full text-sm font-medium`. Tidak aktif: `bg-slate-100 text-ink`. Aktif: `bg-primary-600 text-white`.
+- Satu baris yang bisa di-scroll horizontal di HP (`flex gap-2 overflow-x-auto`): `Semua · Putra · Putri | ≤ 400rb · 400–700rb · > 700rb`, ditambah `<select>` Urutkan di kanan, serta teks "12 kost ditemukan".
+- `<Chip active>` merender `<button aria-pressed>` dengan class `h-9 px-4 rounded-full border text-sm font-medium`. Tidak aktif: `border-line bg-surface text-ink hover:border-line-strong`. Aktif: `border-ink bg-ink text-white`.
 - Semua nilai dibaca dan ditulis lewat `useSearchParams`, bukan disimpan di `useState`.
 
 ### 6.5 `<KostCard kost={…} />`
 
 ```
 ┌──────────────────────────┐
-│  [ foto 4:3 ]   (Wanita) │  ← <Badge> di pojok kiri atas
+│  [ foto 4:3 ]    (Putri) │  ← <Badge> di pojok kiri atas
 ├──────────────────────────┤
 │ Corner Residence         │  text-lg font-bold line-clamp-1
 │ 📍 Airmadidi Atas        │  text-sm text-muted line-clamp-2
@@ -207,8 +210,8 @@ Setiap komponen menerima `className` tambahan dan meneruskan props lain (`...pro
 └──────────────────────────┘
 ```
 
-- Root berupa `<Link to={`/kost/${kost.id}`} className="group block overflow-hidden rounded-card border border-line bg-surface shadow-card">`.
-- Hover (hanya di perangkat dengan pointer): `hover:-translate-y-1 hover:shadow-raise`, foto `group-hover:scale-105`, `transition duration-200`. Efek lama (`-15px`, `scale(1.15)`) terlalu berlebihan.
+- Root berupa `<Link to={`/kost/${kost.id}`} className="group block">`. Foto `rounded-card` sendiri di atas, teks langsung di bawahnya **tanpa kotak dan bayangan**, sehingga foto yang paling menonjol.
+- Hover (hanya di perangkat dengan pointer): foto `group-hover:scale-[1.03]` di dalam wadah `overflow-hidden`, `transition duration-300`. Kartu tidak terangkat.
 - Tekan (HP): `active:scale-[0.98]`.
 - Masuk: di grid, setiap kartu memakai `animate-fade-up stagger` dengan `style={{ '--i': index }}`, sehingga kartu muncul berurutan.
 - Shared element: foto kartu dibungkus `<ViewTransition name={`kost-${id}`}>`, dan gambar utama di galeri detail memakai nama yang sama, sehingga foto "terbang" dari kartu ke halaman detail.
@@ -216,34 +219,35 @@ Setiap komponen menerima `className` tambahan dan meneruskan props lain (`...pro
 
 ### 6.6 `<Badge>`
 
-`<Badge type="pria|wanita" />` dengan class `rounded-full px-2.5 py-0.5 text-xs font-semibold`. Pria: `bg-pria-bg text-pria-fg`. Wanita: `bg-wanita-bg text-wanita-fg`. Badge "Ter-Approve" hanya ditampilkan jika datanya ada (PRD B16).
+`<Badge type="pria|wanita" />` menampilkan **Putra** / **Putri** dengan class netral `rounded-md border border-line bg-surface px-2 py-0.5 text-xs font-semibold text-ink`. Data tetap memakai `pria`/`wanita`. Badge "Ter-Approve" hanya ditampilkan jika datanya ada (PRD B16).
 
 ### 6.7 `<Navbar>` (top bar)
 
 - `sticky top-0 z-50 h-14 md:h-16`.
-- **Solid** (default): `bg-surface/90 backdrop-blur border-b border-line text-ink`.
+- **Solid** (default): `bg-surface border-b border-line text-ink`.
 - **Transparan** (hanya di `/` saat posisi di atas hero): `bg-transparent text-white`. Berubah ke solid setelah scroll lebih dari 40 px (hook `useScrolled(40)`), dengan `transition-colors duration-300`. Di beranda, hero diberi `-mt-14 pt-14 md:-mt-16 md:pt-16` agar terlihat di bawah navbar.
+- Logo: teks "KostFinder" satu warna (`text-ink`, atau putih di atas hero), `font-extrabold tracking-tight`.
 - Mobile: hanya logo. Desktop (`md:`): Beranda · Kalkulator · Tentang Kami · `<Button size="sm">Booking</Button>`.
-- Link aktif (`<NavLink>`, otomatis `aria-current="page"`): `font-semibold` dengan garis bawah yang memanjang dari kiri (`after:scale-x-0` → `after:scale-x-100`). Saat hover, garis bawah yang sama muncul.
+- Link: `text-muted hover:text-ink`. Link aktif (`<NavLink>`, otomatis `aria-current="page"`): `text-ink font-semibold` dengan garis bawah yang memanjang dari kiri (`after:scale-x-0` → `after:scale-x-100`). Saat hover, garis bawah yang sama muncul.
 
 ### 6.7b `<BottomNav>` (mobile)
 
 ```
 ┌─────────────────────────────────────┐
-│  ( 🏠 )     📅       🧮       ⓘ     │
+│  ──🏠──     📅       🧮       ⓘ     │
 │ Beranda   Booking   Hitung  Tentang │
 └─────────────────────────────────────┘
 ```
 
-- `fixed inset-x-0 bottom-0 z-50 md:hidden`, `bg-surface/95 backdrop-blur border-t border-line`, `pb-[env(safe-area-inset-bottom)]`.
+- `fixed inset-x-0 bottom-0 z-50 md:hidden`, `bg-surface border-t border-line`, `pb-[env(safe-area-inset-bottom)]`.
 - 4 tab `grid-cols-4`, masing-masing `h-16`: ikon 22 px + label `text-xs`.
-- Tab aktif: `text-primary-600`, ikon dengan `strokeWidth={2.5}`, dan pil `bg-primary-100` di belakang ikon yang muncul dengan `animate-pop` (efek spring). Tab lain `text-muted`.
-- Tekan: `active:scale-90`.
+- Tab aktif: `text-primary-600 font-semibold`, ikon `strokeWidth={2.25}`, dan garis 2 px `bg-primary-600` di tepi atas tab yang muncul dengan `animate-scale-in`. Tab lain `text-muted`, ikon `strokeWidth={1.75}`.
+- Tekan: `active:scale-95`.
 - Disembunyikan di `/kost/:id` karena halaman detail punya `<StickyCta>`.
 
 ### 6.8 `<Footer>`
 
-`bg-slate-900 text-white/70`. Grid `md:grid-cols-3` (Brand · Navigasi · Kontak), 1 kolom di HP. Baris copyright dengan `border-t border-white/10`. Tahun diisi dengan `new Date().getFullYear()`.
+`bg-surface border-t border-line text-muted`, judul kolom `text-sm font-semibold text-ink`. Grid `md:grid-cols-3` (Brand · Navigasi · Kontak), 1 kolom di HP (kolom Navigasi disembunyikan karena sudah ada di bottom nav). Baris copyright `text-sm text-subtle` dengan `border-t border-line`. Tahun diisi dengan `new Date().getFullYear()`.
 
 ### 6.9 `<Gallery images={…} name={…} />`
 
@@ -256,17 +260,17 @@ Setiap komponen menerima `className` tambahan dan meneruskan props lain (`...pro
 ### 6.10 Info Panel & `<StickyCta>` (detail)
 
 - Desktop: panel kanan `lg:sticky lg:top-24`.
-- Mobile: `fixed inset-x-0 bottom-0 bg-surface/95 backdrop-blur border-t border-line p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center gap-3 lg:hidden`, berisi harga di kiri, dan tombol WA (ikon) serta "Pesan" di kanan. Muncul dengan animasi naik dari bawah. Halaman diberi `pb-28 lg:pb-0` agar konten tidak tertutup.
+- Mobile: `fixed inset-x-0 bottom-0 bg-surface border-t border-line p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center gap-3 lg:hidden`, berisi harga di kiri, dan tombol WA (`secondary`, ikon saja, `aria-label="Hubungi pemilik lewat WhatsApp"`) serta "Pesan" (`primary`) di kanan. Muncul dengan animasi naik dari bawah. Halaman diberi `pb-28 lg:pb-0` agar konten tidak tertutup.
 
 ### 6.11 `<EmptyState>`, `<NotFoundPage>`, Toast
 
-- **EmptyState:** props `icon`, `title`, `description`, `action`. Ikon 48 px `text-slate-400`.
+- **EmptyState:** props `icon`, `title`, `description`, `action`. Ikon 40 px `strokeWidth={1.5}` `text-subtle`.
 - **Kost tidak ditemukan / 404:** tetap memakai Layout dengan tombol "Kembali ke Beranda".
 - **Toast** (opsional): pengganti `alert()`. Cukup sebuah komponen kecil dengan `role="status"`, tanpa library.
 
 ### 6.12 `<CostSummary price={…} months={…} extra={…} />`
 
-Kotak `bg-primary-50 rounded-xl p-5` dengan `aria-live="polite"`:
+Kotak `bg-page border border-line rounded-card p-5` dengan `aria-live="polite"`, angka `tabular-nums`:
 ```
 Harga per bulan      Rp 850.000
 Durasi               × 6 bulan
@@ -281,13 +285,13 @@ Dipakai bersama di halaman Booking dan Kalkulator.
 
 | Halaman | Struktur (mobile → desktop) |
 |---|---|
-| **HomePage** | Navbar transparan → Hero (foto + overlay `bg-black/60`, h1, subjudul, SearchBar) → FilterBar + jumlah hasil → KostGrid → "Cara Kerja" 3 langkah → Footer |
+| **HomePage** | Navbar transparan → Hero (foto + overlay gelap solid `bg-ink/60`, tanpa gradien warna; h1 rata kiri, subjudul, SearchBar) → FilterBar + jumlah hasil → KostGrid → "Cara Kerja" 3 langkah → Footer |
 | **DetailPage** | Link Kembali → Gallery → Info (judul, Badge, harga, meta) → Fasilitas `grid-cols-2` → Alamat + Peta → Kost serupa. Desktop: `lg:grid-cols-3`, konten `lg:col-span-2` dan info panel sticky di kolom kanan |
 | **BookingPage** | Judul → (mobile) kost terpilih / SelectField kost → Form → CostSummary → Submit. Desktop: `lg:grid-cols-12`, pilih kost `col-span-5`, form `col-span-7` |
 | **CalculatorPage** | Kartu tengah `max-w-xl mx-auto`: pilih kost (opsional) → harga → durasi → biaya tambahan → CostSummary live |
 | **AboutPage** | PageHeader → Misi → 3 kartu keunggulan (`md:grid-cols-3`) → Cara kerja → Kontak |
 
-`<PageHeader title subtitle>` untuk halaman non-beranda: `bg-primary-50 py-12`, judul `text-3xl font-bold`, subjudul `text-muted`. Gradient ungu dengan sudut bulat 50 px yang lama tidak dipakai lagi.
+`<PageHeader title subtitle>` untuk halaman non-beranda: `bg-surface border-b border-line py-8 md:py-12`, judul `text-2xl md:text-4xl font-bold tracking-tight` rata kiri, subjudul `text-muted`.
 
 ---
 
@@ -300,10 +304,9 @@ Semua animasi memakai CSS native dan React `<ViewTransition>`, **tanpa library**
 | Token / class | Nilai | Pemakaian |
 |---|---|---|
 | `ease-out-soft` | `cubic-bezier(.2,.8,.2,1)` | Default untuk hampir semua transisi |
-| `ease-spring` | `cubic-bezier(.34,1.56,.64,1)` | Efek "memantul" kecil: pil tab aktif, badge baru |
-| `animate-fade-up` | 500 ms, naik 16 px | Konten halaman dan kartu saat masuk |
-| `animate-fade-in` | 300 ms | Overlay, gambar selesai dimuat |
-| `animate-pop` | 300 ms, scale 0.6 → 1 spring | Indikator aktif, ikon sukses |
+| `animate-fade-up` | 400 ms, naik 8 px | Konten halaman dan kartu saat masuk |
+| `animate-fade-in` | 250 ms | Pesan error, overlay, gambar selesai dimuat |
+| `animate-scale-in` | 200 ms, scale 0.96 → 1 | Indikator tab aktif, ikon sukses |
 | `animate-progress` | 2 s, scaleX 0 → 0.9 | Progress bar saat pindah halaman |
 | `stagger` | `animation-delay: calc(var(--i) * 60ms)` | Daftar yang muncul berurutan: `style={{ '--i': i }}` |
 | `reveal` | scroll-driven `animation-timeline: view()` | Section yang muncul saat di-scroll. Browser yang belum mendukung langsung menampilkannya |
@@ -315,9 +318,9 @@ Semua animasi memakai CSS native dan React `<ViewTransition>`, **tanpa library**
 |---|---|
 | Pindah halaman | `<ViewTransition default="page">` membungkus `<main>` di Layout: halaman lama memudar 120 ms, halaman baru naik dan muncul 280 ms |
 | Kartu → detail | Shared element `<ViewTransition name={`kost-${id}`}>` di foto kartu dan gambar utama detail |
-| Tekan tombol/chip/tab | `active:scale-[0.97]` / `active:scale-95` / `active:scale-90` dengan `transition-transform duration-200` |
+| Tekan tombol/chip/tab | `active:scale-[0.98]` / `active:scale-95` / `active:scale-95` dengan `transition-transform duration-200` |
 | Navbar scroll | Transparan → solid, `transition-colors duration-300` |
-| Pindah tab bawah | Pil latar ikon `animate-pop` |
+| Pindah tab bawah | Garis indikator `animate-scale-in` |
 | Hero | Judul `animate-fade-up`, subjudul dan search bar `animate-fade-up stagger` (`--i` 2 dan 4) |
 | Slider hero | Dua `<img>` bertumpuk di-crossfade lewat `opacity` (700 ms), interval 6 detik, berhenti saat tab tidak terlihat. Jangan memakai `background-attachment: fixed` (PRD B12) |
 | Hasil filter berubah | Grid di-render ulang dengan `animate-fade-up stagger` (maksimal 8 kartu pertama diberi delay) |
@@ -327,7 +330,8 @@ Semua animasi memakai CSS native dan React `<ViewTransition>`, **tanpa library**
 
 ### 8.3 Aturan
 
-- Durasi: 120–300 ms untuk feedback dan transisi, maksimal 500 ms untuk animasi masuk. Tidak ada animasi yang membuat pengguna menunggu.
+- Tidak ada easing memantul (spring/overshoot). Gunakan `ease-out-soft`.
+- Durasi: 120–300 ms untuk feedback dan transisi, maksimal 400 ms untuk animasi masuk. Tidak ada animasi yang membuat pengguna menunggu.
 - Jangan menganimasikan `width`, `height`, `top`, atau `left`. Gunakan `transform`.
 - `prefers-reduced-motion: reduce` sudah dimatikan secara global di `index.css` (termasuk view transition). Jangan menambah animasi yang mengabaikannya.
 
@@ -350,5 +354,5 @@ Semua animasi memakai CSS native dan React `<ViewTransition>`, **tanpa library**
 - Satu komponen per file, nama file PascalCase (`KostCard.jsx`). Hook diawali `use` dan disimpan di `src/hooks/` (`useScrolled.js`).
 - Komponen halaman hanya berisi susunan komponen dan logika halaman. Logika murni (filter, format) ditaruh di `src/lib/` agar mudah dites.
 - Gunakan named import untuk ikon (`import { MapPin } from 'lucide-react'`).
-- Jangan pakai `dangerouslySetInnerHTML`. Jangan pakai warna hex di `className`. Jika class Tailwind sangat panjang dan berulang, jadikan komponen, bukan `@apply`.
+- Jangan pakai `dangerouslySetInnerHTML`. Jangan pakai warna hex atau palet bawaan Tailwind (`slate-*`, `blue-*`) di `className`, cukup token. Jika class Tailwind sangat panjang dan berulang, jadikan komponen, bukan `@apply`.
 - Urutan class mengikuti plugin `prettier-plugin-tailwindcss` (opsional, tetapi membantu konsistensi tim).

@@ -2,48 +2,39 @@
 
 /* Token design system — lihat docs/DESIGN-SYSTEM.md §2 */
 @theme {
-  /* Warna */
-  --color-primary-50: #eef4ff;
-  --color-primary-100: #dce7fe;
-  --color-primary-500: #3b6ff6;
-  --color-primary-600: #2453e0;
-  --color-primary-700: #1c40b0;
-
-  --color-accent-500: #f59e0b;
-
-  --color-whatsapp: #25d366;
-  --color-whatsapp-hover: #1ebe5a;
-
-  --color-pria-bg: #e0edff;
-  --color-pria-fg: #1d4ed8;
-  --color-wanita-bg: #fde7f1;
-  --color-wanita-fg: #be185d;
-
-  /* Alias peran → bg-page, bg-surface, border-line, text-ink, text-muted */
-  --color-page: #f8fafc;
+  /* Netral hangat — dipakai untuk hampir semua permukaan dan teks */
+  --color-page: #fafaf9;
   --color-surface: #ffffff;
-  --color-line: #e2e8f0;
-  --color-ink: #0f172a;
-  --color-muted: #475569;
+  --color-hover: #f5f5f4;
+  --color-line: #e7e5e4; /* pemisah dekoratif */
+  --color-line-strong: #8a847f; /* batas input, 3.7:1 */
+  --color-ink: #1c1917;
+  --color-muted: #57534e; /* teks sekunder, 7.3:1 */
+  --color-subtle: #78716c; /* placeholder & ikon nonaktif, 4.8:1 */
+
+  /* Satu aksen: hijau Klabat — hanya untuk CTA utama, link, dan status aktif */
+  --color-primary-50: #eef3f0;
+  --color-primary-600: #1f5c46;
+  --color-primary-700: #174837;
+
+  --color-danger: #b42318;
+  --color-whatsapp: #1c9c4f; /* lebih gelap dari hijau brand agar ikon 3:1 di atas putih */
 
   /* Tipografi */
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
-  --text-hero: clamp(2.25rem, 1.4rem + 4vw, 3.75rem);
+  --text-hero: clamp(2rem, 1.3rem + 3.5vw, 3.25rem);
   --text-hero--line-height: 1.1;
 
-  /* Radius & bayangan */
-  --radius-card: 1rem;
-  --radius-panel: 1.5rem;
-  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.06);
-  --shadow-raise: 0 12px 32px rgb(15 23 42 / 0.12);
+  /* Radius & bayangan: garis untuk memisahkan, bayangan hanya untuk lapisan melayang */
+  --radius-card: 0.75rem;
+  --shadow-raise: 0 8px 24px rgb(28 25 23 / 0.08);
 
   /* Motion — lihat docs/DESIGN-SYSTEM.md §8 */
   --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  --animate-fade-up: fade-up 500ms var(--ease-out-soft) both;
-  --animate-fade-in: fade-in 300ms ease-out both;
-  --animate-pop: pop 300ms var(--ease-spring) both;
+  --animate-fade-up: fade-up 400ms var(--ease-out-soft) both;
+  --animate-fade-in: fade-in 250ms ease-out both;
+  --animate-scale-in: scale-in 200ms var(--ease-out-soft) both;
   --animate-shimmer: shimmer 1.4s linear infinite;
   --animate-progress: progress 2s var(--ease-out-soft) forwards;
 }
@@ -54,14 +45,14 @@
     -webkit-tap-highlight-color: transparent;
   }
   :focus-visible {
-    @apply outline-2 outline-offset-2 outline-primary-500;
+    @apply outline-2 outline-offset-2 outline-primary-600;
   }
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(8px);
   }
 }
 @keyframes fade-in {
@@ -69,10 +60,10 @@
     opacity: 0;
   }
 }
-@keyframes pop {
+@keyframes scale-in {
   from {
     opacity: 0;
-    transform: scale(0.6);
+    transform: scale(0.96);
   }
 }
 @keyframes shimmer {
@@ -104,7 +95,7 @@
 }
 
 @utility skeleton {
-  background: linear-gradient(90deg, var(--color-slate-100) 25%, var(--color-slate-200) 50%, var(--color-slate-100) 75%);
+  background: linear-gradient(90deg, var(--color-hover) 25%, var(--color-line) 50%, var(--color-hover) 75%);
   background-size: 200% 100%;
   animation: var(--animate-shimmer);
 }
@@ -124,7 +115,7 @@
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
   }
 }
 

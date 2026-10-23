@@ -5,13 +5,13 @@ export default function HomePage() {
   return (
     <>
       <title>KostFinder UNKLAB — Cari Kost di Sekitar UNKLAB</title>
-      <section className="-mt-14 bg-slate-900 pt-14 md:-mt-16 md:pt-16 text-white">
+      <section className="-mt-14 bg-ink pt-14 text-white md:-mt-16 md:pt-16">
         <Container className="py-24 text-center md:py-32">
           <h1 className="animate-fade-up text-hero font-extrabold tracking-tight">
-            Cari Kost? <span className="text-primary-100">Lebih Mudah.</span>
+            Kost ter-approve di sekitar UNKLAB
           </h1>
           <p className="stagger mx-auto mt-4 max-w-xl animate-fade-up text-lg text-white/80" style={{ '--i': 2 }}>
-            Temukan hunian nyaman dan ter-approve di sekitar Universitas Klabat.
+            Bandingkan harga, fasilitas, dan lokasi, lalu booking langsung ke pemilik lewat WhatsApp.
           </p>
         </Container>
       </section>

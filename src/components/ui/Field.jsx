@@ -20,12 +20,12 @@ export default function Field({ label, error, prefix, id, className = '', ...pro
           id={inputId}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}
-          className={`h-12 w-full rounded-lg border bg-surface px-4 text-ink placeholder:text-slate-400 focus:ring-4 focus:outline-none ${prefix ? 'pl-12' : ''} ${error ? 'border-red-600 focus:ring-red-600/20' : 'border-line focus:border-primary-500 focus:ring-primary-500/20'}`}
+          className={`h-12 w-full rounded-lg border bg-surface px-4 text-ink placeholder:text-subtle focus:ring-4 focus:outline-none ${prefix ? 'pl-12' : ''} ${error ? 'border-danger focus:ring-danger/15' : 'border-line-strong focus:border-primary-600 focus:ring-primary-600/15'}`}
           {...props}
         />
       </div>
       {error && (
-        <p id={errorId} className="mt-1.5 text-sm text-red-600">
+        <p id={errorId} className="mt-1.5 animate-fade-in text-sm text-danger">
           {error}
         </p>
       )}

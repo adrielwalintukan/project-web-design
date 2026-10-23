@@ -16,15 +16,15 @@ export default function Navbar() {
   const transparent = pathname === '/' && !scrolled
 
   const linkClass = ({ isActive }) =>
-    `relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-current after:transition-transform after:duration-300 ${isActive ? 'font-semibold after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'} ${transparent ? (isActive ? 'text-white' : 'text-white/85 hover:text-white') : isActive ? 'text-primary-600' : 'hover:text-primary-600'}`
+    `relative py-1 transition-colors after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:origin-left after:rounded-full after:bg-current after:transition-transform after:duration-300 ${isActive ? 'font-semibold after:scale-x-100' : 'after:scale-x-0 hover:after:scale-x-100'} ${transparent ? (isActive ? 'text-white' : 'text-white/80 hover:text-white') : isActive ? 'text-ink' : 'text-muted hover:text-ink'}`
 
   return (
     <header
-      className={`sticky top-0 z-50 h-14 border-b transition-colors duration-300 md:h-16 ${transparent ? 'border-transparent bg-transparent text-white' : 'border-line bg-surface/90 text-ink backdrop-blur'}`}
+      className={`sticky top-0 z-50 h-14 border-b transition-colors duration-300 md:h-16 ${transparent ? 'border-transparent bg-transparent text-white' : 'border-line bg-surface text-ink'}`}
     >
       <Container className="flex h-full items-center justify-between">
-        <Link to="/" className="text-xl font-extrabold tracking-tight">
-          Kost<span className={transparent ? 'text-primary-100' : 'text-primary-600'}>Finder</span>
+        <Link to="/" className="text-lg font-extrabold tracking-tight">
+          KostFinder
         </Link>
 
         <nav aria-label="Navigasi utama" className="hidden items-center gap-8 md:flex">
