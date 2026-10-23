@@ -257,7 +257,7 @@ src/
     layout/  Layout.jsx · Navbar.jsx · BottomNav.jsx · Footer.jsx
     ui/      Button.jsx · Badge.jsx · Field.jsx · Chip.jsx · EmptyState.jsx · Container.jsx · PageHeader.jsx
     kost/    KostCard.jsx · SearchBar.jsx · FilterBar.jsx · Gallery.jsx · CostSummary.jsx
-  lib/       format.js · facilities.js · filterKosts.js · booking.js (+ *.test.js)
+  lib/       format.js · facilities.js · filterKosts.js · booking.js · calculator.js (+ *.test.js)
   pages/
     HomePage.jsx · DetailPage.jsx · BookingPage.jsx · CalculatorPage.jsx · AboutPage.jsx · NotFoundPage.jsx
 ```

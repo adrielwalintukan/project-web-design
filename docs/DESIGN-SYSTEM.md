@@ -290,8 +290,8 @@ Dipakai bersama di halaman Booking dan Kalkulator.
 | **HomePage** | Navbar transparan → Hero (foto + overlay gelap solid `bg-ink/65`, tanpa gradien warna; h1 rata kiri, subjudul, SearchBar) → FilterBar sticky + jumlah hasil + Urutkan → grid KostCard → Footer. Bagian "Cara Kerja" 3 langkah sengaja dihapus (pola template generik). |
 | **DetailPage** | Link Kembali → Gallery → Info (judul, Badge, harga, meta) → Fasilitas `grid-cols-2` → Alamat + Peta → Kost serupa. Desktop: `lg:grid-cols-3`, konten `lg:col-span-2` dan info panel sticky di kolom kanan |
 | **BookingPage** | PageHeader → `<Field as="select">` kost (dikelompokkan Putra/Putri, terisi dari `?kost=`) + kartu kost terpilih → Nama, WhatsApp, Tanggal masuk + Durasi (select 1–24) → CostSummary → Submit. Error tampil setelah submit pertama lalu live; fokus pindah ke field error pertama. Setelah WhatsApp dibuka, muncul pesan `role="status"`. Desktop: `lg:grid-cols-12`, pilih kost `col-span-5`, form `col-span-7` |
-| **CalculatorPage** | Kartu tengah `max-w-xl mx-auto`: pilih kost (opsional) → harga → durasi → biaya tambahan → CostSummary live |
-| **AboutPage** | PageHeader → Misi → 3 kartu keunggulan (`md:grid-cols-3`) → Cara kerja → Kontak |
+| **CalculatorPage** | Kolom tengah `max-w-xl mx-auto`: pilih kost (opsional, terisi dari `?kost=`) → harga (`prefix="Rp"`, titik ribuan otomatis; mengubahnya melepas pilihan kost) → durasi + listrik/air → CostSummary live (atau petunjuk bergaris putus jika belum lengkap) → "Booking {kost}" jika kost dipilih |
+| **AboutPage** | PageHeader → Misi (teks besar) → 3 fakta dari data (jumlah kost, rentang harga, WhatsApp) dengan garis atas `border-ink`, bukan kartu ikon → Cara kerja 3 langkah bernomor → Kontak (Chat admin + email). Tanpa klaim yang tidak bisa dibuktikan (PRD B9) |
 
 `<PageHeader title subtitle>` untuk halaman non-beranda: `bg-surface border-b border-line py-8 md:py-12`, judul `text-2xl md:text-4xl font-bold tracking-tight` rata kiri, subjudul `text-muted`.
 
