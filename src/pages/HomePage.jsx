@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router'
-import { SearchX } from 'lucide-react'
+import { ArrowUpDown, SearchX } from 'lucide-react'
 import kosts from '../data/kosts.js'
 import { filterKosts } from '../lib/filterKosts.js'
 import { imageSrcSet } from '../lib/format.js'
@@ -43,7 +43,7 @@ export default function HomePage() {
     <>
       <title>KostFinder UNKLAB — Kost ter-approve di sekitar UNKLAB</title>
 
-      <section className="relative -mt-14 overflow-hidden bg-ink pt-14 text-white md:-mt-16 md:pt-16">
+      <section className="relative -mt-14 overflow-hidden rounded-b-[2rem] bg-ink pt-14 text-white md:-mt-16 md:rounded-b-[3rem] md:pt-16">
         <img
           src="/gambar/unklab.webp"
           srcSet={imageSrcSet('/gambar/unklab.webp')}
@@ -52,13 +52,13 @@ export default function HomePage() {
           fetchPriority="high"
           className="absolute inset-0 size-full animate-fade-in object-cover"
         />
-        <div className="absolute inset-0 bg-ink/65" aria-hidden />
-        <Container className="relative py-12 md:py-24">
-          <p className="animate-fade-up text-sm font-medium text-white/80">
-            {kosts.length} kost · Airmadidi, Minahasa Utara
+        <div className="absolute inset-0 bg-ink/60" aria-hidden />
+        <Container className="relative pt-10 pb-20 md:pt-24 md:pb-32">
+          <p className="inline-block animate-fade-up rounded-full bg-white/15 px-3 py-1 text-xs font-semibold tracking-wide text-white uppercase">
+            {kosts.length} kost · Airmadidi
           </p>
           <h1
-            className="stagger mt-2 max-w-2xl animate-fade-up text-hero font-extrabold tracking-tight"
+            className="stagger mt-4 max-w-2xl animate-fade-up text-hero font-extrabold tracking-tight"
             style={{ '--i': 1 }}
           >
             Kost ter-approve di sekitar UNKLAB
@@ -66,21 +66,25 @@ export default function HomePage() {
           <p className="stagger mt-3 max-w-xl animate-fade-up text-white/80 md:text-lg" style={{ '--i': 2 }}>
             Bandingkan harga, fasilitas, dan lokasi, lalu booking langsung ke pemilik lewat WhatsApp.
           </p>
-          <SearchBar
-            className="stagger mt-6 max-w-xl animate-fade-up"
-            style={{ '--i': 3 }}
-            value={filters.q}
-            onChange={(v) => update('q', v)}
-            onSubmit={(e) => {
-              e.currentTarget.querySelector('input').blur() // tutup keyboard HP
-              document.getElementById('hasil').scrollIntoView({ behavior: 'smooth' })
-            }}
-          />
         </Container>
       </section>
 
-      <section id="hasil" aria-labelledby="hasil-judul" className="scroll-mt-14 md:scroll-mt-16">
-        <div className="sticky top-14 z-40 border-b border-line bg-page md:top-16">
+      {/* Search pill menumpang di batas bawah hero */}
+      <Container className="relative z-10 -mt-8">
+        <SearchBar
+          className="stagger mx-auto max-w-2xl animate-fade-up"
+          style={{ '--i': 3 }}
+          value={filters.q}
+          onChange={(v) => update('q', v)}
+          onSubmit={(e) => {
+            e.currentTarget.querySelector('input').blur() // tutup keyboard HP
+            document.getElementById('hasil').scrollIntoView({ behavior: 'smooth' })
+          }}
+        />
+      </Container>
+
+      <section id="hasil" aria-labelledby="hasil-judul" className="mt-4 scroll-mt-14 md:scroll-mt-16">
+        <div className="sticky top-14 z-40 bg-page/90 backdrop-blur-lg md:top-16">
           <Container>
             <FilterBar type={filters.type} price={filters.price} onChange={update} />
           </Container>
@@ -100,18 +104,25 @@ export default function HomePage() {
               <label htmlFor="urutkan" className="sr-only">
                 Urutkan
               </label>
-              <select
-                id="urutkan"
-                value={filters.sort}
-                onChange={(e) => update('sort', e.target.value)}
-                className="h-9 rounded-lg border border-line bg-surface pr-8 pl-3 text-sm font-medium text-ink"
-              >
-                {sortOptions.map((o) => (
-                  <option key={o.value} value={o.value}>
-                    {o.label}
-                  </option>
-                ))}
-              </select>
+              <div className="relative">
+                <ArrowUpDown
+                  size={16}
+                  className="pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-ink"
+                  aria-hidden
+                />
+                <select
+                  id="urutkan"
+                  value={filters.sort}
+                  onChange={(e) => update('sort', e.target.value)}
+                  className="h-10 appearance-none rounded-full bg-tonal pr-4 pl-9 text-sm font-semibold text-ink transition-colors hover:bg-line"
+                >
+                  {sortOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 

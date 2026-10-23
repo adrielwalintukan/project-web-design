@@ -12,7 +12,7 @@ export default function BottomNav() {
   return (
     <nav
       aria-label="Navigasi utama"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface pb-[env(safe-area-inset-bottom)] md:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-line/70 bg-surface/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-lg md:hidden"
     >
       <ul className="grid grid-cols-4">
         {tabs.map(({ to, label, icon: Icon, end }) => (
@@ -21,15 +21,17 @@ export default function BottomNav() {
               to={to}
               end={end}
               className={({ isActive }) =>
-                `relative flex h-16 flex-col items-center justify-center gap-1 text-xs transition-[color,transform] duration-200 active:scale-95 ${isActive ? 'font-semibold text-primary-600' : 'font-medium text-muted'}`
+                `flex h-16 flex-col items-center justify-center gap-1 text-xs transition-colors duration-200 ${isActive ? 'font-bold text-primary-700' : 'font-medium text-muted'}`
               }
             >
               {({ isActive }) => (
+                // Pill di belakang ikon aktif (pola navigasi bawah aplikasi modern)
                 <>
-                  {isActive && (
-                    <span className="absolute inset-x-6 top-0 h-0.5 animate-scale-in rounded-full bg-primary-600" aria-hidden />
-                  )}
-                  <Icon size={22} strokeWidth={isActive ? 2.25 : 1.75} aria-hidden />
+                  <span
+                    className={`grid h-8 w-16 place-items-center rounded-full transition-transform duration-200 active:scale-90 ${isActive ? 'animate-scale-in bg-primary-100' : ''}`}
+                  >
+                    <Icon size={22} strokeWidth={isActive ? 2.25 : 1.75} aria-hidden />
+                  </span>
                   {label}
                 </>
               )}

@@ -1,11 +1,16 @@
 import Container from './Container.jsx'
 
+// Judul besar langsung di atas latar halaman (gaya "large title" aplikasi), tanpa pita putih
 export default function PageHeader({ title, subtitle }) {
   return (
-    <header className="border-b border-line bg-surface py-8 md:py-12">
+    <header className="pt-6 pb-2 md:pt-12">
       <Container>
-        <h1 className="text-2xl font-bold tracking-tight md:text-4xl">{title}</h1>
-        {subtitle && <p className="mt-2 max-w-2xl text-muted">{subtitle}</p>}
+        <h1 className="animate-fade-up text-3xl font-extrabold tracking-tight md:text-5xl">{title}</h1>
+        {subtitle && (
+          <p className="stagger mt-2 max-w-2xl animate-fade-up text-muted md:text-lg" style={{ '--i': 1 }}>
+            {subtitle}
+          </p>
+        )}
       </Container>
     </header>
   )

@@ -33,7 +33,7 @@ export default function CalculatorPage() {
       <title>Kalkulator Sewa — KostFinder UNKLAB</title>
       <PageHeader title="Kalkulator Sewa" subtitle="Hitung perkiraan total biaya sewa, termasuk listrik dan air." />
 
-      <Container className="py-8 md:py-12">
+      <Container className="pt-6 pb-10 md:py-12">
         <div className="mx-auto max-w-xl space-y-5">
           <Field
             as="select"
@@ -98,7 +98,7 @@ export default function CalculatorPage() {
           {canCalculate(values) ? (
             <CostSummary price={Number(values.price)} months={Number(values.months)} extra={Number(values.extra)} />
           ) : (
-            <p className="flex items-center gap-3 rounded-card border border-dashed border-line-strong/50 p-5 text-sm text-muted">
+            <p className="flex items-center gap-3 rounded-card bg-tonal p-5 text-sm text-muted">
               <Calculator size={20} className="shrink-0" aria-hidden />
               Isi harga dan durasi untuk melihat total biaya.
             </p>

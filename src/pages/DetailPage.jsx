@@ -51,7 +51,7 @@ export default function DetailPage() {
       <Container className="pb-12">
         <Link
           to="/"
-          className="-ml-2 inline-flex h-11 items-center gap-1 rounded-lg px-2 text-sm font-medium text-muted hover:text-ink"
+          className="my-3 inline-flex h-10 items-center gap-1 rounded-full bg-tonal pr-4 pl-2.5 text-sm font-semibold text-ink transition-[background-color,transform] duration-200 hover:bg-line active:scale-95"
         >
           <ChevronLeft size={18} aria-hidden /> Semua kost
         </Link>
@@ -66,7 +66,7 @@ export default function DetailPage() {
               <Badge type={kost.type} />
               <span>{kost.size.replace('x', '×')} m</span>
             </div>
-            <h1 className="mt-2 text-2xl font-bold tracking-tight md:text-3xl">{kost.name}</h1>
+            <h1 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl">{kost.name}</h1>
             <p className="mt-1 text-muted">{shortAddress(kost.address)}</p>
             <p className="mt-4 tabular-nums">
               <span className="text-2xl font-bold">{formatRupiah(kost.price)}</span>
@@ -94,15 +94,15 @@ export default function DetailPage() {
 
           <div className="space-y-10 lg:col-span-2">
             <section aria-labelledby="fasilitas">
-              <h2 id="fasilitas" className="text-lg font-semibold">
+              <h2 id="fasilitas" className="text-xl font-bold tracking-tight">
                 Fasilitas
               </h2>
-              <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3">
+              <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
                 {kost.facilities.map((key) => {
                   const { label, icon: Icon } = getFacility(key)
                   return (
-                    <li key={key} className="flex items-center gap-3 text-sm">
-                      <Icon size={20} strokeWidth={1.75} className="shrink-0 text-muted" aria-hidden />
+                    <li key={key} className="flex items-center gap-3 rounded-2xl bg-tonal px-4 py-3.5 text-sm font-medium">
+                      <Icon size={20} strokeWidth={1.75} className="shrink-0 text-primary-700" aria-hidden />
                       {label}
                     </li>
                   )
@@ -111,7 +111,7 @@ export default function DetailPage() {
             </section>
 
             <section aria-labelledby="lokasi">
-              <h2 id="lokasi" className="text-lg font-semibold">
+              <h2 id="lokasi" className="text-xl font-bold tracking-tight">
                 Lokasi
               </h2>
               <p className="mt-2 flex gap-2 text-sm text-muted">
@@ -127,7 +127,7 @@ export default function DetailPage() {
                   className="mt-4 aspect-[4/3] w-full rounded-card border border-line bg-hover md:aspect-video"
                 />
               ) : (
-                <p className="mt-4 rounded-card border border-line bg-surface p-4 text-sm text-muted">
+                <p className="mt-4 rounded-card bg-tonal p-5 text-sm text-muted">
                   Peta untuk kost ini belum tersedia.
                 </p>
               )}
@@ -145,7 +145,7 @@ export default function DetailPage() {
 
         {similar.length > 0 && (
           <section aria-labelledby="serupa" className="mt-14">
-            <h2 id="serupa" className="text-lg font-semibold">
+            <h2 id="serupa" className="text-xl font-bold tracking-tight">
               Kost {kost.type === 'pria' ? 'putra' : 'putri'} lainnya
             </h2>
             <div className="mt-4 grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -158,7 +158,7 @@ export default function DetailPage() {
       </Container>
 
       {/* CTA utama di jangkauan jempol (HP); di desktop CTA ada di panel kanan */}
-      <div className="fixed inset-x-0 bottom-0 z-40 flex animate-fade-up items-center gap-3 border-t border-line bg-surface p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-40 flex animate-fade-up items-center gap-3 border-t border-line/70 bg-surface/90 p-3 backdrop-blur-lg pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
         <p className="min-w-0 flex-1 leading-tight tabular-nums">
           <span className="block font-bold">{formatRupiah(kost.price)}</span>
           <span className="text-sm text-muted">per bulan</span>

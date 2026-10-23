@@ -29,11 +29,11 @@ export default function KostCard({ kost, index = 0 }) {
         <Badge type={kost.type} className="absolute top-3 left-3" />
       </div>
       <div className="mt-3 space-y-0.5">
-        <h3 className="line-clamp-1 font-semibold">{kost.name}</h3>
+        <h3 className="line-clamp-1 text-[1.0625rem] font-bold tracking-tight">{kost.name}</h3>
         <p className="line-clamp-1 text-sm text-muted">{shortAddress(kost.address)}</p>
         <p className="line-clamp-1 text-sm text-subtle">{highlights.join(' · ')}</p>
         <p className="pt-1 tabular-nums">
-          <span className="font-semibold">{formatRupiah(kost.price)}</span>
+          <span className="font-bold">{formatRupiah(kost.price)}</span>
           <span className="text-sm text-muted"> /bulan</span>
         </p>
       </div>

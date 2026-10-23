@@ -25,15 +25,16 @@ Tampilan generik hasil template atau AI mudah dikenali. Aturan berikut menjaga U
 | Jangan | Lakukan |
 |---|---|
 | Gradien di latar, tombol, atau teks | Warna solid. Hierarki dibangun lewat ukuran, ketebalan font, dan jarak |
-| Glassmorphism, `backdrop-blur`, glow, bayangan berwarna | Permukaan solid `bg-surface` dengan `border-line`. Bayangan `shadow-raise` hanya untuk lapisan yang melayang (toast, dialog, search bar di atas foto) |
+| Glassmorphism dekoratif, glow, bayangan berwarna | Permukaan solid atau tonal (`bg-tonal`, `bg-primary-50`) tanpa garis tepi. `backdrop-blur` **hanya** untuk bar yang menempel di atas konten yang bergulir (navbar, filter sticky, bottom nav, CTA detail), seperti di aplikasi native. `shadow-raise` untuk kartu yang perlu terangkat, `shadow-float` untuk search pill |
 | Aksen di mana-mana (logo, judul, latar section, ikon dekoratif) | Aksen hijau **hanya** untuk: tombol utama, link di dalam teks, status aktif (tab, focus), dan progress. Maksimal ±10% layar |
 | Kata berwarna di judul ("Cari Kost? *Lebih Mudah.*") | Judul satu warna, berisi informasi nyata ("Kost ter-approve di sekitar UNKLAB") |
 | Badge biru untuk pria, pink untuk wanita | Badge netral dengan istilah pasar: **Putra / Putri** |
-| Semua elemen `rounded-full` atau `rounded-2xl` | Skala radius terbatas: `rounded-md` (badge), `rounded-lg` (tombol, input), `rounded-card` 12 px (kartu, foto). `rounded-full` hanya untuk chip filter dan indikator |
+| Radius acak per komponen | Skala radius ala aplikasi yang konsisten: `rounded-full` (tombol, chip, badge, search, pill tab), `rounded-2xl` 16 px (input, ubin fasilitas, thumbnail), `rounded-card` 20 px (kartu, foto, panel), hero `rounded-b-[2rem]` |
 | Animasi memantul (spring), zoom besar, kartu terangkat jauh | Gerakan pendek dan halus: fade dan geser 8 px, scale ≥ 0.96 |
 | Emoji atau ikon dekoratif di samping setiap judul | Ikon hanya jika membantu memindai (fasilitas, alamat, tab). Lucide, `strokeWidth` 1.75 |
 | Copy hiperbola: "terbaik", "nomor 1", "aman, terpercaya, dan mudah" | Copy spesifik dan bisa dibuktikan: harga, jumlah kost, jarak, fasilitas |
 | Section "fitur" dengan 3 kartu ikon yang isinya sama | Tampilkan data asli (kost, harga, foto) secepat mungkin |
+| Garis tepi tipis di setiap kotak, pita header putih, `<select>` bawaan OS (kesan template lama) | Pisahkan lewat permukaan tonal dan jarak; judul besar langsung di latar halaman; select dengan `appearance-none` + chevron sendiri. Garis hanya untuk batas input (kontras 3:1) |
 
 ---
 
@@ -42,9 +43,10 @@ Tampilan generik hasil template atau AI mudah dikenali. Aturan berikut menjaga U
 ```css
 @theme {
   /* Netral hangat — hampir semua permukaan dan teks */
-  --color-page:        #FAFAF9;  /* latar halaman */
+  --color-page:        #FAF9F7;  /* latar halaman, putih hangat */
   --color-surface:     #FFFFFF;  /* kartu, navbar, bottom nav */
-  --color-hover:       #F5F5F4;  /* hover tombol sekunder, skeleton */
+  --color-hover:       #F5F5F4;  /* hover, skeleton */
+  --color-tonal:       #EFEEEA;  /* chip, tombol sekunder, ubin fasilitas */
   --color-line:        #E7E5E4;  /* pemisah dekoratif */
   --color-line-strong: #8A847F;  /* batas input — 3.7:1 */
   --color-ink:         #1C1917;  /* teks utama — 16.7:1 */
@@ -52,7 +54,8 @@ Tampilan generik hasil template atau AI mudah dikenali. Aturan berikut menjaga U
   --color-subtle:      #78716C;  /* placeholder, ikon nonaktif — 4.8:1 */
 
   /* Satu aksen: hijau Klabat */
-  --color-primary-50:  #EEF3F0;  /* latar ringan (jarang) */
+  --color-primary-50:  #EAF2EE;  /* panel tinted: CostSummary, kontak, status */
+  --color-primary-100: #D3E5DB;  /* pill tab aktif, nomor langkah */
   --color-primary-600: #1F5C46;  /* tombol utama, aktif — putih di atasnya 7.8:1 */
   --color-primary-700: #174837;  /* hover */
 
@@ -62,8 +65,9 @@ Tampilan generik hasil template atau AI mudah dikenali. Aturan berikut menjaga U
   --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
   --text-hero: clamp(2rem, 1.3rem + 3.5vw, 3.25rem);
 
-  --radius-card: 0.75rem;                          /* 12 px */
-  --shadow-raise: 0 8px 24px rgb(28 25 23 / .08);  /* hanya lapisan melayang */
+  --radius-card: 1.25rem;  /* 20 px */
+  --shadow-raise: 0 1px 2px rgb(28 25 23/.04), 0 6px 20px rgb(28 25 23/.06);   /* kartu terangkat, badge */
+  --shadow-float: 0 2px 6px rgb(28 25 23/.06), 0 16px 40px rgb(28 25 23/.14);  /* search pill */
 }
 ```
 
@@ -172,8 +176,8 @@ Setiap komponen menerima `className` tambahan dan meneruskan props lain (`...pro
 
 Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 
-- Dasar: `inline-flex items-center justify-center gap-2 rounded-lg font-semibold active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`.
-- `size`: `md` = `h-11 px-5` (44 px, target sentuh minimum), `sm` = `h-9 px-4 text-sm`. `block` menambah `w-full`.
+- Dasar: `inline-flex items-center justify-center gap-2 rounded-full font-semibold active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed`.
+- `size`: `md` = `h-12 px-6` (48 px), `sm` = `h-10 px-4 text-sm`. `block` menambah `w-full`. Varian `secondary` = `bg-tonal` tanpa border, `ghost` = hover `bg-tonal`.
 - Prop `as` dipakai untuk merender `<a>` atau `<Link>`. Gunakan `<button>` untuk aksi dan link untuk navigasi.
 
 ### 6.2 `<Field>` — `components/ui/Field.jsx`
@@ -184,17 +188,18 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 ```
 
 - Merender `<label htmlFor>`, `<input id aria-invalid aria-describedby>`, dan `<p id="…-error">` saat ada error. `id` dibuat otomatis dengan `useId()`.
-- Input: `h-12 w-full rounded-lg border border-line-strong bg-surface px-4 placeholder:text-subtle focus:border-primary-600 focus:ring-4 focus:ring-primary-600/15`. Saat error: `border-danger`, pesan `text-danger animate-fade-in`.
+- Input: `h-14 w-full appearance-none rounded-2xl border border-line-strong bg-surface px-4 placeholder:text-subtle focus:border-primary-600 focus:ring-4 focus:ring-primary-600/15`. Saat error: `border-danger`, pesan `text-danger animate-fade-in`.
 - Dropdown: `<Field as="select">` dengan `<option>` sebagai children (gaya dan error sama). Prop `prefix="Rp"` untuk input harga.
 
 ### 6.3 `<SearchBar>` (hero)
 
-`<form role="search">` berupa kotak putih (`rounded-xl bg-surface shadow-raise p-1.5 flex`) berisi ikon `Search`, input, dan `<Button>`. Di < 640 px tombol hanya menampilkan ikon (dengan `aria-label="Cari"`). Hasil difilter langsung saat mengetik; submit (Enter) menutup keyboard HP dan menggulir ke `#hasil`.
+`<form role="search">` berupa pill putih melayang (`h-16 rounded-full bg-surface shadow-float`) berisi input dan tombol bulat `size-12 rounded-full bg-primary-600` berikon `Search` (`aria-label="Cari"`). Di beranda pill ini menumpang di batas bawah hero (`-mt-8`). Hasil difilter langsung saat mengetik; submit (Enter) menutup keyboard HP dan menggulir ke `#hasil`.
 
 ### 6.4 `<FilterBar>` + `<Chip>`
 
 - Satu baris chip yang bisa di-scroll horizontal di HP (`no-scrollbar flex gap-2 overflow-x-auto`), sticky di bawah navbar: `Semua · Putra · Putri | ≤ 400rb · 400–700rb · > 700rb`. Chip harga yang aktif diklik lagi untuk melepasnya. Di bawahnya: "12 kost ditemukan" (`aria-live`), tombol Reset, dan `<select>` Urutkan.
-- `<Chip active>` merender `<button aria-pressed>` dengan class `h-9 px-4 rounded-full border text-sm font-medium`. Tidak aktif: `border-line bg-surface text-ink hover:border-line-strong`. Aktif: `border-ink bg-ink text-white`.
+- `<Chip active icon>` merender `<button aria-pressed>` dengan class `h-10 px-4 rounded-full text-sm font-semibold`, ikon opsional 16 px (Semua `LayoutGrid`, Putra `Mars`, Putri `Venus`). Tidak aktif: `bg-tonal text-ink hover:bg-line`. Aktif: `bg-ink text-white`.
+- Urutkan: `<select>` pill `h-10 rounded-full bg-tonal appearance-none` dengan ikon `ArrowUpDown` di kiri.
 - FilterBar tidak menyimpan state; nilai dan `onChange(key, value)` datang dari HomePage, yang menyinkronkannya ke URL (lihat PRD F1). Logika filter ada di `lib/filterKosts.js`.
 
 ### 6.5 `<KostCard kost={…} />`
@@ -219,12 +224,12 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 
 ### 6.6 `<Badge>`
 
-`<Badge type="pria|wanita" />` menampilkan **Putra** / **Putri** dengan class netral `rounded-md border border-line bg-surface px-2 py-0.5 text-xs font-semibold text-ink`. Data tetap memakai `pria`/`wanita`. Badge "Ter-Approve" hanya ditampilkan jika datanya ada (PRD B16).
+`<Badge type="pria|wanita" />` menampilkan **Putra** / **Putri** sebagai pill putih `rounded-full bg-surface px-2.5 py-1 text-xs font-semibold shadow-raise`, terbaca di atas foto maupun latar halaman. Data tetap memakai `pria`/`wanita`. Badge "Ter-Approve" hanya ditampilkan jika datanya ada (PRD B16).
 
 ### 6.7 `<Navbar>` (top bar)
 
 - `sticky top-0 z-50 h-14 md:h-16`.
-- **Solid** (default): `bg-surface border-b border-line text-ink`.
+- **Solid** (default): `bg-page/85 backdrop-blur-lg border-b border-line/70 text-ink`.
 - **Transparan** (hanya di `/` saat posisi di atas hero): `bg-transparent text-white`. Berubah ke solid setelah scroll lebih dari 40 px (hook `useScrolled(40)`), dengan `transition-colors duration-300`. Di beranda, hero diberi `-mt-14 pt-14 md:-mt-16 md:pt-16` agar terlihat di bawah navbar.
 - Logo: teks "KostFinder" satu warna (`text-ink`, atau putih di atas hero), `font-extrabold tracking-tight`.
 - Mobile: hanya logo. Desktop (`md:`): Beranda · Kalkulator · Tentang Kami · `<Button size="sm">Booking</Button>`.
@@ -234,15 +239,15 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 
 ```
 ┌─────────────────────────────────────┐
-│  ──🏠──     📅       🧮       ⓘ     │
+│  (🏠)      📅       🧮       ⓘ     │
 │ Beranda   Booking   Hitung  Tentang │
 └─────────────────────────────────────┘
 ```
 
-- `fixed inset-x-0 bottom-0 z-50 md:hidden`, `bg-surface border-t border-line`, `pb-[env(safe-area-inset-bottom)]`.
+- `fixed inset-x-0 bottom-0 z-50 md:hidden`, `bg-surface/90 backdrop-blur-lg border-t border-line/70`, `pb-[env(safe-area-inset-bottom)]`.
 - 4 tab `grid-cols-4`, masing-masing `h-16`: ikon 22 px + label `text-xs`.
-- Tab aktif: `text-primary-600 font-semibold`, ikon `strokeWidth={2.25}`, dan garis 2 px `bg-primary-600` di tepi atas tab yang muncul dengan `animate-scale-in`. Tab lain `text-muted`, ikon `strokeWidth={1.75}`.
-- Tekan: `active:scale-95`.
+- Tab aktif: label `text-primary-700 font-bold`, ikon `strokeWidth={2.25}` di dalam pill `h-8 w-16 rounded-full bg-primary-100` yang muncul dengan `animate-scale-in` (pola Material 3). Tab lain `text-muted`, ikon `strokeWidth={1.75}`.
+- Tekan: pill `active:scale-90`.
 - Disembunyikan di `/kost/:id` karena halaman detail punya `<StickyCta>`.
 
 ### 6.8 `<Footer>`
@@ -287,13 +292,13 @@ Dipakai bersama di halaman Booking dan Kalkulator.
 
 | Halaman | Struktur (mobile → desktop) |
 |---|---|
-| **HomePage** | Navbar transparan → Hero (foto + overlay gelap solid `bg-ink/65`, tanpa gradien warna; h1 rata kiri, subjudul, SearchBar) → FilterBar sticky + jumlah hasil + Urutkan → grid KostCard → Footer. Bagian "Cara Kerja" 3 langkah sengaja dihapus (pola template generik). |
+| **HomePage** | Navbar transparan → Hero (foto + overlay `bg-ink/60`, sudut bawah `rounded-b-[2rem] md:rounded-b-[3rem]`; label pill "20 kost · Airmadidi", h1, subjudul) → SearchBar pill menumpang di batas hero → FilterBar sticky berlatar blur + jumlah hasil + Urutkan → grid KostCard → Footer. Bagian "Cara Kerja" 3 langkah sengaja dihapus (pola template generik). |
 | **DetailPage** | Link Kembali → Gallery → Info (judul, Badge, harga, meta) → Fasilitas `grid-cols-2` → Alamat + Peta → Kost serupa. Desktop: `lg:grid-cols-3`, konten `lg:col-span-2` dan info panel sticky di kolom kanan |
 | **BookingPage** | PageHeader → `<Field as="select">` kost (dikelompokkan Putra/Putri, terisi dari `?kost=`) + kartu kost terpilih → Nama, WhatsApp, Tanggal masuk + Durasi (select 1–24) → CostSummary → Submit. Error tampil setelah submit pertama lalu live; fokus pindah ke field error pertama. Setelah WhatsApp dibuka, muncul pesan `role="status"`. Desktop: `lg:grid-cols-12`, pilih kost `col-span-5`, form `col-span-7` |
 | **CalculatorPage** | Kolom tengah `max-w-xl mx-auto`: pilih kost (opsional, terisi dari `?kost=`) → harga (`prefix="Rp"`, titik ribuan otomatis; mengubahnya melepas pilihan kost) → durasi + listrik/air → CostSummary live (atau petunjuk bergaris putus jika belum lengkap) → "Booking {kost}" jika kost dipilih |
-| **AboutPage** | PageHeader → Misi (teks besar) → 3 fakta dari data (jumlah kost, rentang harga, WhatsApp) dengan garis atas `border-ink`, bukan kartu ikon → Cara kerja 3 langkah bernomor → Kontak (Chat admin + email). Tanpa klaim yang tidak bisa dibuktikan (PRD B9) |
+| **AboutPage** | PageHeader → Misi (teks besar) → 3 fakta dari data (jumlah kost, rentang harga, WhatsApp) dalam kartu putih `shadow-raise` (angka besar, bukan kartu ikon generik) → Cara kerja 3 langkah bernomor → Kontak (Chat admin + email). Tanpa klaim yang tidak bisa dibuktikan (PRD B9) |
 
-`<PageHeader title subtitle>` untuk halaman non-beranda: `bg-surface border-b border-line py-8 md:py-12`, judul `text-2xl md:text-4xl font-bold tracking-tight` rata kiri, subjudul `text-muted`.
+`<PageHeader title subtitle>` untuk halaman non-beranda: judul besar langsung di latar halaman (gaya *large title* aplikasi), `pt-6 md:pt-12`, judul `text-3xl md:text-5xl font-extrabold tracking-tight`, subjudul `text-muted`, keduanya `animate-fade-up`. Tanpa pita putih atau garis bawah.
 
 ---
 
@@ -343,7 +348,7 @@ Semua animasi memakai CSS native dan React `<ViewTransition>`, **tanpa library**
 
 - Kontras teks ≥ 4.5:1, teks besar dan ikon UI ≥ 3:1. Teks di atas foto hero wajib memakai overlay.
 - Focus ring global sudah ada di `@layer base`. Jangan pernah memakai `outline-none` tanpa pengganti.
-- Target sentuh ≥ 44×44 px (`h-11`).
+- Target sentuh ≥ 44×44 px (tombol `h-12`, chip `h-10` dengan jarak `gap-2`).
 - Satu `<h1>` per halaman, urutan heading berurutan. Gunakan landmark `<header> <nav> <main> <footer>`, yang dirender oleh Layout.
 - Setiap input punya label lewat `<Field>`. Error dihubungkan dengan `aria-describedby`.
 - Tambahkan link "Lewati ke konten" (`sr-only focus:not-sr-only`) di awal Layout.

@@ -62,7 +62,7 @@ export default function BookingPage() {
       <title>Booking Kost — KostFinder UNKLAB</title>
       <PageHeader title="Booking Kamar" subtitle="Pilih kost, isi data, lalu kirim permintaan ke pemilik lewat WhatsApp." />
 
-      <Container className="py-8 md:py-12">
+      <Container className="pt-6 pb-10 md:py-12">
         <form noValidate onSubmit={submit} className="grid gap-8 lg:grid-cols-12 lg:gap-12">
           <div className="space-y-4 lg:col-span-5">
             <Field as="select" label="Kost" {...field('kostId')}>
@@ -81,13 +81,13 @@ export default function BookingPage() {
             </Field>
 
             {kost && (
-              <div key={kost.id} className="flex animate-fade-in gap-4 rounded-card border border-line bg-surface p-3">
+              <div key={kost.id} className="flex animate-fade-in gap-4 rounded-card bg-surface p-3 shadow-raise">
                 <img
                   src={kost.images[0].replace(/\.webp$/, '-sm.webp')}
                   srcSet={imageSrcSet(kost.images[0])}
                   sizes="96px"
                   alt=""
-                  className="size-24 shrink-0 rounded-lg object-cover"
+                  className="size-24 shrink-0 rounded-2xl object-cover"
                 />
                 <div className="min-w-0 py-0.5">
                   <Badge type={kost.type} />
@@ -133,7 +133,7 @@ export default function BookingPage() {
                 : 'Permintaan dikirim langsung ke WhatsApp pemilik kost.'}
             </p>
             {sent && (
-              <p role="status" className="flex animate-fade-in items-start gap-2 rounded-card bg-primary-50 p-4 text-sm text-primary-700">
+              <p role="status" className="flex animate-fade-in items-start gap-2 rounded-card bg-primary-50 p-4 text-sm font-medium text-primary-700">
                 <CircleCheck size={18} className="mt-0.5 shrink-0" aria-hidden />
                 WhatsApp sudah dibuka dengan pesan booking. Tekan kirim di sana untuk menyelesaikan.
               </p>
