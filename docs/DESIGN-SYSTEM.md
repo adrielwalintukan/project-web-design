@@ -145,7 +145,7 @@ Nama kost ditulis **Title Case** di data ("Kost Wullur"), bukan huruf kapital se
 | `kulkas` | Kulkas Bersama | `Refrigerator` |
 | (tidak dikenal) | sesuai data | `CircleCheck` |
 
-- **Foto:** kartu `aspect-[4/3] object-cover`, galeri utama `aspect-[16/10]`, thumbnail `aspect-square`. Format WebP ≤ 200 KB di `public/gambar/`. Selalu cantumkan `width`, `height`, `loading="lazy"` (kecuali foto hero), dan `alt={`Foto ${kost.name}`}`.
+- **Foto:** kartu `aspect-[4/3] object-cover`, galeri utama `aspect-[16/10]`, thumbnail `aspect-square`. Setiap foto punya dua ukuran WebP di `public/gambar/`: `x.webp` (1600 px) dan `x-sm.webp` (640 px). Gunakan `srcSet={imageSrcSet(src)}` dengan `sizes` yang sesuai (kartu: `sizes="(min-width: 640px) 50vw, 100vw"`, thumbnail: cukup `x-sm.webp`). Selalu cantumkan `width`, `height` atau `aspect-ratio`, `loading="lazy"` (kecuali foto pertama yang terlihat), `decoding="async"`, dan `alt={`Foto ${kost.name}`}`.
 
 ---
 

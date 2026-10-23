@@ -31,14 +31,24 @@ Buka alamat yang muncul di terminal (biasanya http://localhost:5173).
 | `npm run build` | Build produksi ke folder `dist/` |
 | `npm run preview` | Menjalankan hasil build secara lokal |
 | `npm run lint` | Cek kode dengan oxlint |
+| `npm test` | Tes helper dan validasi data kost (`node --test`) |
+| `npm run images -- <folder>` | Kompres foto ke WebP di `public/gambar` (default sumber: `legacy/gambar`) |
 
 > Jangan membuka `index.html` langsung dengan double-click. Aplikasi harus dijalankan lewat `npm run dev` atau dari hasil deploy.
+
+## Menambah atau mengubah kost
+
+1. Simpan foto asli (JPG/PNG) di sebuah folder, beri nama tanpa spasi, misalnya `kostBaru1.jpg`.
+2. Jalankan `npm run images -- <folder>`. Hasilnya `public/gambar/kostBaru1.webp` (1600 px) dan `kostBaru1-sm.webp` (640 px), masing-masing ≤ 200 KB.
+3. Tambahkan data di [src/data/kosts.js](src/data/kosts.js) sesuai skema di [docs/PRD.md §6](docs/PRD.md). Key fasilitas yang tersedia ada di [src/lib/facilities.js](src/lib/facilities.js).
+4. Jalankan `npm test`. Tes akan gagal jika ada id ganda, foto tidak ditemukan, fasilitas tidak dikenal, atau nomor WhatsApp tidak valid.
 
 ## Struktur
 
 ```
 docs/       PRD dan Design System — baca ini dulu sebelum mengerjakan fitur
-public/     File statis (favicon, nanti foto kost di public/gambar)
+public/     File statis: favicon dan foto kost (public/gambar)
+scripts/    Script bantu (kompres foto)
 src/        Kode aplikasi React
 legacy/     Website versi lama (HTML/CSS/JS). Hanya referensi selama migrasi, akan dihapus
 ```

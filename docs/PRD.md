@@ -179,15 +179,17 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
   price: 300000,                // number (Rupiah / bulan)
   size: '4x4',                  // meter
   address: 'Airmadidi Atas, …',
-  images: ['/gambar/kostWullur1.webp', …],  // di public/gambar; images[0] = cover; hapus field `image`
-  facilities: ['wifi', 'km-dalam', 'ac'],   // key → label & icon di satu map
-  contact: '6281234567890' | null,          // sudah format wa.me
+  images: ['/gambar/kostWullur1.webp', …],  // di public/gambar; images[0] = cover; versi -sm.webp dibuat otomatis
+  facilities: ['wifi', 'km-dalam', 'ac'],   // key → label & icon di src/lib/facilities.js
+  contact: '6281234567890' | null,          // format wa.me; null → pakai ADMIN_PHONE
   mapUrl: 'https://…' | null
 }
 ```
 
-- Taruh helper `formatRupiah(n)` dan `waLink(phone, text)` di `src/lib/format.js`. Saat ini logika format nomor WA diduplikasi di `detail.js` dan `booking.js`.
-- Verifikasi ulang kontak placeholder (Wullur, Mizpa) dan lengkapi kontak atau peta yang kosong bila ada.
+- Helper di `src/lib/format.js`: `formatRupiah(n)`, `normalizePhone(input)` (dipakai juga untuk validasi input No. WA di form booking), `waLink(phone, text)`, `imageSrcSet(src)`, dan konstanta `ADMIN_PHONE`.
+- `src/data/kosts.test.js` memvalidasi setiap kost (id unik, foto ada, fasilitas dikenal, kontak valid). Jalankan `npm test` setiap kali data diubah.
+- **Status data (fase 3):** 20 kost sudah dimigrasi. 12 kost belum punya kontak (diarahkan ke admin), Anugerah Wisma belum punya peta, dan kontak Wullur dan Mizpa perlu diverifikasi karena terlihat seperti nomor contoh.
+- Foto: 37 file (21 MB) dikompres menjadi 74 file WebP (4,7 MB) lewat `npm run images`.
 
 ---
 
