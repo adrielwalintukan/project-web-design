@@ -214,7 +214,7 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 - Hover (hanya di perangkat dengan pointer): foto `group-hover:scale-[1.03]` di dalam wadah `overflow-hidden`, `transition duration-300`. Kartu tidak terangkat.
 - Tekan (HP): `active:scale-[0.98]`.
 - Masuk: di grid, setiap kartu memakai `animate-fade-up stagger` dengan `style={{ '--i': Math.min(index, 8) }}`, sehingga kartu muncul berurutan. Grid diberi `key` dari filter/urutan, jadi kartu masuk ulang saat filter berubah, tapi tidak di setiap ketikan.
-- Shared element (fase 5): foto kartu dibungkus `<ViewTransition name={`kost-${id}`}>`, dan gambar utama di galeri detail memakai nama yang sama, sehingga foto "terbang" dari kartu ke halaman detail.
+- Shared element: foto kartu dibungkus `<ViewTransition name={`kost-${id}`}>`, dan gambar utama di galeri detail memakai nama yang sama, sehingga foto "terbang" dari kartu ke halaman detail.
 - `<KostCardSkeleton>`: blok dengan class `skeleton` (shimmer) dengan ukuran yang sama.
 
 ### 6.6 `<Badge>`
@@ -249,18 +249,20 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 
 `bg-surface border-t border-line text-muted`, judul kolom `text-sm font-semibold text-ink`. Grid `md:grid-cols-3` (Brand · Navigasi · Kontak), 1 kolom di HP (kolom Navigasi disembunyikan karena sudah ada di bottom nav). Baris copyright `text-sm text-subtle` dengan `border-t border-line`. Tahun diisi dengan `new Date().getFullYear()`.
 
-### 6.9 `<Gallery images={…} name={…} />`
+### 6.9 `<Gallery id={…} images={…} name={…} />`
 
-- Gambar utama `aspect-[16/10] rounded-card` berupa track horizontal `flex snap-x snap-mandatory overflow-x-auto` (setiap foto `snap-center shrink-0 w-full`), sehingga di HP cukup di-swipe. Foto aktif dideteksi dari posisi scroll.
+- Di HP foto selebar layar (`-mx-4`, tanpa radius, `aspect-[4/3]`), di desktop `aspect-[16/10] rounded-card`. Foto pertama dibungkus `<ViewTransition name={`kost-${id}`}>` (shared element dengan KostCard).
+- Gambar utama berupa track horizontal `flex snap-x snap-mandatory overflow-x-auto` (setiap foto `snap-center shrink-0 w-full`), sehingga di HP cukup di-swipe. Foto aktif dideteksi dari posisi scroll.
 - Di HP: indikator titik di bawah gambar (titik aktif memanjang). Di desktop: tombol prev/next bulat (`size-10 rounded-full bg-white/90`) dan penghitung "2 / 4".
-- Thumbnail berupa `<button aria-label="Foto 2 dari 4">` berukuran `size-18 rounded-lg`. Thumbnail aktif diberi `ring-2 ring-primary-600`.
+- Thumbnail (desktop saja) berupa `<button aria-label="Foto 2 dari 4">` berukuran `size-18 rounded-lg` memakai file `-sm.webp`. Thumbnail aktif diberi `ring-2 ring-primary-600`.
+- Kost dengan satu foto tidak menampilkan titik, tombol, maupun thumbnail.
 - Tombol ← → di keyboard berfungsi saat galeri difokus.
-- Lightbox (P1): elemen `<dialog>` native yang dibuka dengan `showModal()` dan ditutup dengan Esc.
+- Lightbox (P1, belum dibuat): elemen `<dialog>` native yang dibuka dengan `showModal()` dan ditutup dengan Esc.
 
 ### 6.10 Info Panel & `<StickyCta>` (detail)
 
 - Desktop: panel kanan `lg:sticky lg:top-24`.
-- Mobile: `fixed inset-x-0 bottom-0 bg-surface border-t border-line p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center gap-3 lg:hidden`, berisi harga di kiri, dan tombol WA (`secondary`, ikon saja, `aria-label="Hubungi pemilik lewat WhatsApp"`) serta "Pesan" (`primary`) di kanan. Muncul dengan animasi naik dari bawah. Halaman diberi `pb-28 lg:pb-0` agar konten tidak tertutup.
+- Mobile: `fixed inset-x-0 bottom-0 bg-surface border-t border-line p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center gap-3 lg:hidden`, berisi harga di kiri, dan tombol WA (`secondary`, ikon saja, `aria-label="Hubungi pemilik lewat WhatsApp"`) serta "Pesan" (`primary`) di kanan. Muncul dengan `animate-fade-up`. `Layout` memberi `pb-[calc(4.375rem+safe-area)] lg:pb-0` di route detail agar konten dan footer tidak tertutup. Di HP, link "Hitung total biaya sewa" ada di bawah harga; di desktop panel kanan berisi Pesan Sekarang (primary), Hubungi Pemilik/Admin (secondary + ikon `text-whatsapp`), dan Hitung Biaya Sewa (ghost).
 
 ### 6.11 `<EmptyState>`, `<NotFoundPage>`, Toast
 

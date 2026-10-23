@@ -12,7 +12,7 @@ export default function Layout() {
 
   return (
     <div
-      className={`flex min-h-screen flex-col ${showBottomNav ? 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0' : ''}`}
+      className={`flex min-h-screen flex-col ${showBottomNav ? 'pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0' : 'pb-[calc(4.375rem+env(safe-area-inset-bottom))] lg:pb-0'}`}
     >
       <a
         href="#main"

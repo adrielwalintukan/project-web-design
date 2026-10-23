@@ -114,6 +114,11 @@
 ::view-transition-new(.page) {
   animation: 280ms var(--ease-out-soft) both page-in;
 }
+/* Foto kartu → galeri detail (<ViewTransition name="kost-…">) */
+::view-transition-group(*) {
+  animation-duration: 300ms;
+  animation-timing-function: var(--ease-out-soft);
+}
 @keyframes page-out {
   to {
     opacity: 0;
