@@ -17,6 +17,16 @@ export function waLink(phone, text) {
   return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`
 }
 
+// "CX8Q+434, Airmadidi Atas, Kec. Airmadidi, …" → "Airmadidi Atas" (maks. 2 bagian, tanpa plus code)
+export function shortAddress(address) {
+  const parts = address
+    .replace(/^[A-Z0-9]{4}\+[A-Z0-9]{2,3},\s*/, '')
+    .split(/,\s*/)
+    .filter((p) => p !== 'Unnamed Road')
+  const end = parts.findIndex((p) => /^(Kec\.|Kabupaten|North )/.test(p))
+  return parts.slice(0, end === -1 ? 2 : Math.min(end, 2)).join(', ')
+}
+
 // Foto punya dua ukuran (scripts/optimize-images.js): x.webp 1600 px dan x-sm.webp 640 px
 export function imageSrcSet(src) {
   return `${src.replace(/\.webp$/, '-sm.webp')} 640w, ${src} 1600w`

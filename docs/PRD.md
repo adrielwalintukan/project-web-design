@@ -115,11 +115,11 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 ### F1. Beranda & Daftar Kost (`/`) — P0
 - Hero dengan judul, subjudul, dan kolom pencarian. Slider background tetap boleh dipakai, tetapi harus ada overlay agar teks terbaca, dan dimatikan jika `prefers-reduced-motion`.
 - Grid kartu kost dari `src/data/kosts.js`.
-- **Pencarian** berdasarkan nama atau alamat, dengan debounce sekitar 200 ms.
+- **Pencarian** berdasarkan nama atau alamat, langsung saat mengetik (20 data, tanpa debounce). Enter menutup keyboard dan menggulir ke hasil.
 - **Filter** (P0): tipe (Semua / Putra / Putri; di URL tetap `pria`/`wanita`), rentang harga (≤ 400rb, 400–700rb, > 700rb).
 - **Urutkan** (P1): harga termurah, harga termahal, nama A–Z.
 - Menampilkan jumlah hasil ("12 kost ditemukan") dan empty state dengan tombol "Reset filter".
-- Kata kunci dan filter disimpan di URL (`?q=&type=&price=&sort=`) lewat `useSearchParams`, sehingga bisa dibagikan dan tetap ada saat tombol Back ditekan. Ini menggantikan `search.html`.
+- Kata kunci dan filter disimpan di URL (`?q=&type=&price=&sort=`): dibaca dari URL saat halaman dibuka, disimpan di state lokal, lalu disalin ke URL dengan `history.replaceState` (navigasi router asinkron membuat ketikan dan klik beruntun hilang), sehingga bisa dibagikan dan tetap ada saat tombol Back ditekan. Ini menggantikan `search.html`.
 
 **AC:** mengetik "wullur" menampilkan 1 kartu. Filter Putri + > 700rb menampilkan Corner Residence, Topaz Place, Gazelle, dan Azalea Hall. Refresh halaman dengan `?type=pria` tetap menampilkan filter Putra aktif.
 
@@ -256,7 +256,8 @@ src/
   components/
     layout/  Layout.jsx · Navbar.jsx · BottomNav.jsx · Footer.jsx
     ui/      Button.jsx · Badge.jsx · Field.jsx · Chip.jsx · EmptyState.jsx · Container.jsx · PageHeader.jsx
-    kost/    KostCard.jsx · KostGrid.jsx · FilterBar.jsx · Gallery.jsx · CostSummary.jsx
+    kost/    KostCard.jsx · SearchBar.jsx · FilterBar.jsx · Gallery.jsx · CostSummary.jsx
+  lib/       format.js · facilities.js · filterKosts.js (+ *.test.js)
   pages/
     HomePage.jsx · DetailPage.jsx · BookingPage.jsx · CalculatorPage.jsx · AboutPage.jsx · NotFoundPage.jsx
 ```

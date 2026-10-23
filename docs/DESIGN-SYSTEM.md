@@ -189,13 +189,13 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 
 ### 6.3 `<SearchBar>` (hero)
 
-`<form role="search">` berupa kotak putih (`rounded-xl bg-surface shadow-raise p-1.5 flex`) berisi ikon `Search`, input, dan `<Button>`. Di < 640 px tombol hanya menampilkan ikon (dengan `aria-label="Cari"`). Submit memperbarui `?q=` di URL.
+`<form role="search">` berupa kotak putih (`rounded-xl bg-surface shadow-raise p-1.5 flex`) berisi ikon `Search`, input, dan `<Button>`. Di < 640 px tombol hanya menampilkan ikon (dengan `aria-label="Cari"`). Hasil difilter langsung saat mengetik; submit (Enter) menutup keyboard HP dan menggulir ke `#hasil`.
 
 ### 6.4 `<FilterBar>` + `<Chip>`
 
-- Satu baris yang bisa di-scroll horizontal di HP (`flex gap-2 overflow-x-auto`): `Semua · Putra · Putri | ≤ 400rb · 400–700rb · > 700rb`, ditambah `<select>` Urutkan di kanan, serta teks "12 kost ditemukan".
+- Satu baris chip yang bisa di-scroll horizontal di HP (`no-scrollbar flex gap-2 overflow-x-auto`), sticky di bawah navbar: `Semua · Putra · Putri | ≤ 400rb · 400–700rb · > 700rb`. Chip harga yang aktif diklik lagi untuk melepasnya. Di bawahnya: "12 kost ditemukan" (`aria-live`), tombol Reset, dan `<select>` Urutkan.
 - `<Chip active>` merender `<button aria-pressed>` dengan class `h-9 px-4 rounded-full border text-sm font-medium`. Tidak aktif: `border-line bg-surface text-ink hover:border-line-strong`. Aktif: `border-ink bg-ink text-white`.
-- Semua nilai dibaca dan ditulis lewat `useSearchParams`, bukan disimpan di `useState`.
+- FilterBar tidak menyimpan state; nilai dan `onChange(key, value)` datang dari HomePage, yang menyinkronkannya ke URL (lihat PRD F1). Logika filter ada di `lib/filterKosts.js`.
 
 ### 6.5 `<KostCard kost={…} />`
 
@@ -203,18 +203,18 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 ┌──────────────────────────┐
 │  [ foto 4:3 ]    (Putri) │  ← <Badge> di pojok kiri atas
 ├──────────────────────────┤
-│ Corner Residence         │  text-lg font-bold line-clamp-1
-│ 📍 Airmadidi Atas        │  text-sm text-muted line-clamp-2
-│ ▢ 5x4 m · ❄ AC · 📶 WiFi │  maksimal 3 fasilitas
-│ Rp 850.000 /bulan        │  font-bold; "/bulan" text-muted
+│ Corner Residence         │  font-semibold line-clamp-1
+│ Airmadidi Atas           │  shortAddress(), text-sm text-muted
+│ 5×4 m · Kasur · Lemari   │  ukuran + 2 fasilitas, text-sm text-subtle
+│ Rp 850.000 /bulan        │  font-semibold tabular-nums; "/bulan" text-muted
 └──────────────────────────┘
 ```
 
 - Root berupa `<Link to={`/kost/${kost.id}`} className="group block">`. Foto `rounded-card` sendiri di atas, teks langsung di bawahnya **tanpa kotak dan bayangan**, sehingga foto yang paling menonjol.
 - Hover (hanya di perangkat dengan pointer): foto `group-hover:scale-[1.03]` di dalam wadah `overflow-hidden`, `transition duration-300`. Kartu tidak terangkat.
 - Tekan (HP): `active:scale-[0.98]`.
-- Masuk: di grid, setiap kartu memakai `animate-fade-up stagger` dengan `style={{ '--i': index }}`, sehingga kartu muncul berurutan.
-- Shared element: foto kartu dibungkus `<ViewTransition name={`kost-${id}`}>`, dan gambar utama di galeri detail memakai nama yang sama, sehingga foto "terbang" dari kartu ke halaman detail.
+- Masuk: di grid, setiap kartu memakai `animate-fade-up stagger` dengan `style={{ '--i': Math.min(index, 8) }}`, sehingga kartu muncul berurutan. Grid diberi `key` dari filter/urutan, jadi kartu masuk ulang saat filter berubah, tapi tidak di setiap ketikan.
+- Shared element (fase 5): foto kartu dibungkus `<ViewTransition name={`kost-${id}`}>`, dan gambar utama di galeri detail memakai nama yang sama, sehingga foto "terbang" dari kartu ke halaman detail.
 - `<KostCardSkeleton>`: blok dengan class `skeleton` (shimmer) dengan ukuran yang sama.
 
 ### 6.6 `<Badge>`
@@ -285,7 +285,7 @@ Dipakai bersama di halaman Booking dan Kalkulator.
 
 | Halaman | Struktur (mobile → desktop) |
 |---|---|
-| **HomePage** | Navbar transparan → Hero (foto + overlay gelap solid `bg-ink/60`, tanpa gradien warna; h1 rata kiri, subjudul, SearchBar) → FilterBar + jumlah hasil → KostGrid → "Cara Kerja" 3 langkah → Footer |
+| **HomePage** | Navbar transparan → Hero (foto + overlay gelap solid `bg-ink/65`, tanpa gradien warna; h1 rata kiri, subjudul, SearchBar) → FilterBar sticky + jumlah hasil + Urutkan → grid KostCard → Footer. Bagian "Cara Kerja" 3 langkah sengaja dihapus (pola template generik). |
 | **DetailPage** | Link Kembali → Gallery → Info (judul, Badge, harga, meta) → Fasilitas `grid-cols-2` → Alamat + Peta → Kost serupa. Desktop: `lg:grid-cols-3`, konten `lg:col-span-2` dan info panel sticky di kolom kanan |
 | **BookingPage** | Judul → (mobile) kost terpilih / SelectField kost → Form → CostSummary → Submit. Desktop: `lg:grid-cols-12`, pilih kost `col-span-5`, form `col-span-7` |
 | **CalculatorPage** | Kartu tengah `max-w-xl mx-auto`: pilih kost (opsional) → harga → durasi → biaya tambahan → CostSummary live |

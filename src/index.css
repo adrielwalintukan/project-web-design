@@ -80,6 +80,13 @@
   }
 }
 
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* Jeda bertahap untuk daftar: style={{ '--i': index }} */
 @utility stagger {
   animation-delay: calc(var(--i, 0) * 60ms);

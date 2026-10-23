@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { formatRupiah, imageSrcSet, normalizePhone, waLink } from './format.js'
+import { formatRupiah, imageSrcSet, normalizePhone, shortAddress, waLink } from './format.js'
 
 test('formatRupiah memakai titik ribuan', () => {
   assert.equal(formatRupiah(850000), 'Rp 850.000')
@@ -30,4 +30,12 @@ test('waLink meng-encode pesan', () => {
 
 test('imageSrcSet menunjuk ke versi kecil dan besar', () => {
   assert.equal(imageSrcSet('/gambar/a.webp'), '/gambar/a-sm.webp 640w, /gambar/a.webp 1600w')
+})
+
+test('shortAddress membuang plus code dan bagian kecamatan', () => {
+  assert.equal(shortAddress('CX8Q+434, Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara'), 'Airmadidi Atas')
+  assert.equal(shortAddress('Lingkungan 11, Airmadidi Atas, Kec. Airmadidi'), 'Lingkungan 11, Airmadidi Atas')
+  assert.equal(shortAddress('Lingkungan X, Airmadidi Atas, Airmadidi, North Minahasa Regency'), 'Lingkungan X, Airmadidi Atas')
+  assert.equal(shortAddress('Airmadidi Bawah'), 'Airmadidi Bawah')
+  assert.equal(shortAddress('Unnamed Road, Airmadidi Atas, Kec. Airmadidi'), 'Airmadidi Atas')
 })
