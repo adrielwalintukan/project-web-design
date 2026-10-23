@@ -1,0 +1,37 @@
+:root {
+    /* Color Palette */
+    --primary-color: #6C63FF; /* Modern Purple */
+    --secondary-color: #2F2E41; /* Dark overlay/text */
+    --accent-color: #00BFA6; /* Teal accent */
+    --bg-color: #F9FAFC; /* Light gray background */
+    --card-bg: #FFFFFF;
+    --text-primary: #333333;
+    --text-secondary: #777777;
+    --danger-color: #FF6584;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #6C63FF 0%, #4834d4 100%);
+    --gradient-glass: rgba(255, 255, 255, 0.8);
+
+    /* Shadows */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
+
+    /* Typography */
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 15px;
+    --radius-lg: 25px;
+    --radius-pill: 50px;
+}

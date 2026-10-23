@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - KostFinder UNKLAB</title>
+
+    <!-- External CSS Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles/modern.css">
+
+    <style>
+        .about-hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            border-radius: var(--radius-md);
+            margin-bottom: 3rem;
+        }
+
+        .about-card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .about-card h2 {
+            font-family: var(--font-heading);
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .about-card p,
+        .about-card li {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .about-card ul {
+            padding-left: 20px;
+        }
+
+        .about-card li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar-glass">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="navbar-brand" href="index.html"
+                style="font-size: 1.5rem; font-weight: 700; color: var(--secondary-color);">
+                Kost<span>Finder</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Beranda</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container" style="padding-top: 100px; padding-bottom: 50px;">
+        <div class="about-hero">
+            <h1
+                style="font-family: var(--font-heading); font-size: 2.5rem; color: var(--secondary-color); margin-bottom: 1rem;">
+                Tentang <span style="color: var(--primary-color);">Kami</span></h1>
+            <p style="color: var(--text-secondary); max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
+                Mendedikasikan diri untuk membantu mahasiswa UNKLAB menemukan hunian terbaik, aman, dan nyaman.
+            </p>
+        </div>
+
+        <div class="about-card">
+            <h2><i class="fas fa-bullseye" style="color: var(--primary-color); margin-right: 10px;"></i>Misi Kami</h2>
+            <p>KostFinder adalah platform pencarian kost yang khusus menyediakan informasi kost yang sudah ter-approved
+                oleh Universitas Klabat. Misi kami adalah membantu mahasiswa menemukan tempat kost yang nyaman, aman,
+                dan sesuai dengan standar Universitas Klabat.</p>
+        </div>
+
+        <div class="about-card">
+            <h2><i class="fas fa-star" style="color: var(--accent-color); margin-right: 10px;"></i>Kenapa Memilih Kami?
+            </h2>
+            <ul>
+                <li>Semua kost di KostFinder sudah melalui proses seleksi dan verifikasi sehingga para mahasiswa dapat
+                    tinggal dengan nyaman tanpa khawatir soal kualitas dan keamanan.</li>
+                <li>Dengan fitur filter harga dan informasi detail, pengguna dapat menemukan kost yang sesuai dengan
+                    kebutuhan dan budget mereka dengan mudah.</li>
+            </ul>
+        </div>
+
+        <div class="about-card" style="border-left-color: var(--accent-color);">
+            <h2><i class="fas fa-handshake" style="color: var(--primary-color); margin-right: 10px;"></i>Komitmen Kami
+            </h2>
+            <p>KostFinder berkomitmen untuk terus bekerjasama dengan Universitas Klabat dalam memperbaharui daftar kost
+                yang tersedia dan membantu meningkatkan kualitas hunian di sekitar kampus. Bersama KostFinder, mahasiswa
+                dan orang tua dapat merasa lebih tenang karena setiap hunian telah melalui proses seleksi yang ketat.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                &copy; 2024 KostFinder UNKLAB. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -67,9 +67,126 @@ document.addEventListener('DOMContentLoaded', function() {
             address: "Lingkungan 11, Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
             price: 500000,
             type: "Kost Wanita",
-            size: "3x3",
-            img: "gambar/kostAJ1(1).jpg",
+            size: "4x4",
+            img: "gambar/kostAJ1-1.jpg",
             detailLink: "detailkost.html?kost=kostAJ1"
+        },
+        {
+            name: "TOPAZ PLACE",
+            address: "Lingkungan X, Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 1000000,
+            type: "Kost Wanita",
+            size: "5x5",
+            img: "gambar/topasPlace1.png",
+            detailLink: "detailkost.html?kost=topazPlace"
+        },
+        {
+            name: "KOST GAZELLE",
+            address: "Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 1000000,
+            type: "Kost Wanita",
+            size: "5x5",
+            img: "gambar/kostGazelle.png",
+            detailLink: "detailkost.html?kost=kostGazelle"
+        },
+        {
+            name: "KOST YEYEN",
+            address: "Unnamed Road, Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 600000,
+            type: "Kost Wanita",
+            size: "4x5",
+            img: "gambar/kostYeyen.png",
+            detailLink: "detailkost.html?kost=kostYeyen"
+        },
+        {
+            name: "KOST ISTANA MUTIARA",
+            address: "Jln. Airmadidi Bawah, Airmadidi Bawah, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 600000,
+            type: "Kost Wanita",
+            size: "4x4",
+            img: "gambar/kostIstanaMutiara1.png",
+            detailLink: "detailkost.html?kost=kostIstanaMutiara"
+        },
+        {
+            name: "KOST AUNTY LIVY",
+            address: "Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 600000,
+            type: "Kost Wanita",
+            size: "4x4",
+            img: "gambar/kostAuntyLivy.png",
+            detailLink: "detailkost.html?kost=kostAuntyLivy"
+        },
+        {
+            name: "AZALEA HALL",
+            address: "Jln. Arnold Mononuntu, Airmadidi Bawah, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 1000000,
+            type: "Kost Wanita",
+            size: "5x4",
+            img: "gambar/azaleaHall.png",
+            detailLink: "detailkost.html?kost=azaleaHall"
+        },
+        {
+            name: "KOST ASDITH",
+            address: "Airmadidi Bawah, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 300000,
+            type: "Kost Pria",
+            size: "3x3",
+            img: "gambar/kostAsdith1.jpg",
+            detailLink: "detailkost.html?kost=kostAsdith"
+        },
+        {
+            name: "KOST SION",
+            address: "Jln. Airmadidi Atas, Airmadidi Bawah, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 400000,
+            type: "Kost Pria",
+            size: "4x4",
+            img: "gambar/kostSion.jpg",
+            detailLink: "detailkost.html?kost=kostSion"
+        },
+        {
+            name: "KOST TUMOUTOU",
+            address: "Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 400000,
+            type: "Kost Pria",
+            size: "4x4",
+            img: "gambar/kostTumoutou.jpg",
+            detailLink: "detailkost.html?kost=kostYeyen"
+        },
+        {
+            name: "KOST MAHUNUTU",
+            address: "Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 500000,
+            type: "Kost Pria",
+            size: "5x4",
+            img: "gambar/kostMahunutu.jpg",
+            detailLink: "detailkost.html?kost=kostMahunutu"
+        },
+        {
+            name: "KOST IMANUEL FRANS",
+            address: "Airmadidi Bawah, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 350000,
+            type: "Kost Pria",
+            size: "3x4",
+            img: "gambar/kostImanuelFrans.jpg",
+            detailLink: "detailkost.html?kost=kostImanuelFrans"
+        },
+        {
+            name: "KOST AJ 2",
+            address: "Lingkungan 10, Airmadidi Atas, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 600000,
+            type: "Kost Pria",
+            size: "5x5",
+            img: "gambar/kostAJ2-1.jpg",
+            detailLink: "detailkost.html?kost=kostAJ2"
+        },
+        {
+            name: "KOST PELEH",
+            address: "Yordan, Kel. Airmadidi Bawah, Kec. Airmadidi, Kabupaten Minahasa Utara, Sulawesi Utara",
+            price: 300000,
+            type: "Kost Pria",
+            size: "3x3",
+            img: "gambar/kostPeleh.jpg",
+            detailLink: "detailkost.html?kost=kostPeleh"
         }
     ];
 

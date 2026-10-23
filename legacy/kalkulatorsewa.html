@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Sewa - KostFinder UNKLAB</title>
+
+    <!-- External CSS Libraries -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles/modern.css">
+
+    <style>
+        .calc-wrapper {
+            max-width: 600px;
+            margin: 4rem auto;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.1);
+            outline: none;
+        }
+
+        .btn-calc {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-calc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 99, 255, 0.3);
+        }
+
+        .result-box {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-title {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: var(--font-heading);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar-glass">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a class="navbar-brand" href="index.html"
+                style="font-size: 1.5rem; font-weight: 700; color: var(--secondary-color);">
+                Kost<span>Finder</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Beranda</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container" style="padding-top: 80px;">
+        <div class="calc-wrapper">
+            <h2 class="section-title" style="margin-bottom: 2rem;">Kalkulator Sewa</h2>
+
+            <div class="form-group">
+                <label class="form-label" for="monthlyRent">Harga Sewa per Bulan (Rp)</label>
+                <input type="number" id="monthlyRent" class="form-control" placeholder="Contoh: 500000" min="0">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="duration">Durasi Sewa (Bulan)</label>
+                <input type="number" id="duration" class="form-control" placeholder="Contoh: 6" min="1">
+            </div>
+
+            <button class="btn-calc" onclick="calculateRent()">Hitung Total</button>
+
+            <div id="result-box" class="result-box">
+                <p class="result-title">Estimasi Total Biaya</p>
+                <div id="totalCost" class="result-value">Rp 0</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="modern-footer">
+        <div class="container">
+            <div style="text-align: center; color: rgba(255,255,255,0.5); font-size: 0.9rem;">
+                &copy; 2024 KostFinder UNKLAB. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script -->
+    <script>
+        function calculateRent() {
+            const monthlyRent = parseFloat(document.getElementById('monthlyRent').value);
+            const duration = parseFloat(document.getElementById('duration').value);
+            const resultBox = document.getElementById('result-box');
+            const totalCostEl = document.getElementById('totalCost');
+
+            if (isNaN(monthlyRent) || isNaN(duration)) {
+                alert("Mohon masukkan angka yang valid.");
+                return;
+            }
+
+            const total = monthlyRent * duration;
+            totalCostEl.innerText = "Rp " + total.toLocaleString('id-ID');
+            resultBox.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
