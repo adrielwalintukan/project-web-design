@@ -1,3 +1,145 @@
 @import "tailwindcss";
 
-/* Token design system (docs/DESIGN-SYSTEM.md §2) ditambahkan di fase 2 */
+/* Token design system — lihat docs/DESIGN-SYSTEM.md §2 */
+@theme {
+  /* Warna */
+  --color-primary-50: #eef4ff;
+  --color-primary-100: #dce7fe;
+  --color-primary-500: #3b6ff6;
+  --color-primary-600: #2453e0;
+  --color-primary-700: #1c40b0;
+
+  --color-accent-500: #f59e0b;
+
+  --color-whatsapp: #25d366;
+  --color-whatsapp-hover: #1ebe5a;
+
+  --color-pria-bg: #e0edff;
+  --color-pria-fg: #1d4ed8;
+  --color-wanita-bg: #fde7f1;
+  --color-wanita-fg: #be185d;
+
+  /* Alias peran → bg-page, bg-surface, border-line, text-ink, text-muted */
+  --color-page: #f8fafc;
+  --color-surface: #ffffff;
+  --color-line: #e2e8f0;
+  --color-ink: #0f172a;
+  --color-muted: #475569;
+
+  /* Tipografi */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --text-hero: clamp(2.25rem, 1.4rem + 4vw, 3.75rem);
+  --text-hero--line-height: 1.1;
+
+  /* Radius & bayangan */
+  --radius-card: 1rem;
+  --radius-panel: 1.5rem;
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.06);
+  --shadow-raise: 0 12px 32px rgb(15 23 42 / 0.12);
+
+  /* Motion — lihat docs/DESIGN-SYSTEM.md §8 */
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-fade-up: fade-up 500ms var(--ease-out-soft) both;
+  --animate-fade-in: fade-in 300ms ease-out both;
+  --animate-pop: pop 300ms var(--ease-spring) both;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-progress: progress 2s var(--ease-out-soft) forwards;
+}
+
+@layer base {
+  html {
+    @apply bg-page text-ink antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-500;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(0.9);
+  }
+}
+
+/* Jeda bertahap untuk daftar: style={{ '--i': index }} */
+@utility stagger {
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Muncul saat masuk layar; tanpa dukungan scroll-driven animation, elemen langsung tampil */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, var(--color-slate-100) 25%, var(--color-slate-200) 50%, var(--color-slate-100) 75%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Transisi antar halaman (React <ViewTransition default="page">) */
+::view-transition-old(.page) {
+  animation: 120ms ease-in both page-out;
+}
+::view-transition-new(.page) {
+  animation: 280ms var(--ease-out-soft) both page-in;
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

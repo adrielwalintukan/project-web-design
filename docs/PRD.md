@@ -18,6 +18,8 @@ Refactor v2 punya dua tujuan:
 1. **UI modern dan konsisten** di semua halaman, desktop maupun HP.
 2. **Semua fitur berfungsi dengan benar**, tanpa link mati, tombol yang tidak bekerja, atau data yang tidak sinkron.
 
+**Platform utama: HP.** Mayoritas pengguna membuka dari ponsel, jadi tampilan mobile, animasi, dan UX wajib terasa seperti aplikasi (lihat §7.1). Desktop tetap didukung.
+
 **Stack v2: React + Vite + Tailwind CSS + React Router.** Tetap tanpa backend. Data kost disimpan di `src/data/kosts.js`, dan hasil build berupa file statis yang bisa di-deploy gratis.
 
 ---
@@ -126,7 +128,7 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 - Seluruh kartu berupa `<Link to={`/kost/${id}`}>`, sehingga bisa difokus dan dibuka di tab baru.
 
 ### F3. Detail Kost (`/kost/:id`) — P0
-- Galeri: gambar utama, thumbnail, tombol prev/next, navigasi keyboard ← →, dan lightbox (P1).
+- Galeri: gambar utama yang bisa di-**swipe** di HP, thumbnail, tombol prev/next (desktop), navigasi keyboard ← →, dan lightbox (P1).
 - Info: nama, harga, tipe, ukuran, alamat, dan fasilitas dengan icon.
 - Peta Google Maps. Jika tidak ada, tampilkan link "Buka di Google Maps" dari alamat, atau pesan "Peta belum tersedia".
 - CTA **Hubungi Pemilik** (WhatsApp). Jika kontak kosong, gunakan nomor admin dan beri label "Hubungi Admin".
@@ -158,7 +160,10 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 - Kontak dan FAQ singkat (P2).
 
 ### F7. Layout Global — P0
-- Navbar yang sama di semua halaman: varian transparan di atas hero, varian solid di halaman lain dan saat di-scroll. Menu hamburger di < 768 px. Link aktif ditandai.
+- **Mobile (< 768 px):** top bar berisi logo, ditambah **bottom tab bar** (Beranda · Booking · Hitung · Tentang) yang selalu terjangkau jempol. Bottom tab bar disembunyikan di halaman detail karena di sana ada sticky CTA.
+- **Desktop:** navbar dengan link dan tombol Booking.
+- Navbar transparan di atas hero beranda, berubah solid saat di-scroll. Link/tab aktif ditandai dengan animasi.
+- Transisi halaman yang halus, dan progress bar tipis di atas layar saat halaman sedang dimuat.
 - Footer yang sama di semua halaman.
 - Halaman 404 (`NotFoundPage`) untuk route yang tidak dikenal (P0, karena SPA).
 
@@ -199,6 +204,23 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 | **Keamanan** | Render data lewat JSX biasa (otomatis di-escape). Dilarang memakai `dangerouslySetInnerHTML`. Link eksternal memakai `target="_blank" rel="noopener noreferrer"` |
 | **Kode** | `npm run lint` (oxlint dari template Vite) tanpa error. Komponen kecil dan satu tanggung jawab. Tidak ada warna hex di className (pakai token Tailwind). File lama di §2.1 dihapus setelah migrasi selesai |
 
+### 7.1 Standar Mobile & UX (wajib)
+
+| Area | Standar |
+|---|---|
+| **Perangkat uji** | 360×740 (Android kecil), 390×844 (iPhone), 412×915 (Android besar). Tidak boleh ada scroll horizontal |
+| **Jangkauan jempol** | Navigasi utama dan CTA utama (Pesan, Hubungi, Kirim Booking) ada di setengah bawah layar: bottom tab bar dan sticky CTA |
+| **Target sentuh** | Minimal 44×44 px, dengan jarak antar target ≥ 8 px |
+| **Safe area** | Bar bawah memakai `env(safe-area-inset-bottom)` agar tidak tertutup home indicator iPhone (`viewport-fit=cover`) |
+| **Feedback instan** | Setiap tombol, chip, tab, dan kartu mengecil sedikit saat ditekan (`active:scale`). Tidak ada highlight biru bawaan saat di-tap |
+| **Transisi halaman** | Cross-fade dan geser halus antar route lewat React `<ViewTransition>`. Foto kartu "terbang" ke galeri detail (shared element, fase 4–5) |
+| **Loading** | Skeleton beranimasi untuk konten yang dimuat, dan progress bar di atas layar saat pindah halaman. Tidak pernah ada layar kosong |
+| **Animasi masuk** | Konten halaman muncul dengan fade-up bertahap (stagger). Section di bawah lipatan muncul saat di-scroll |
+| **Gesture** | Galeri foto bisa di-swipe (CSS scroll-snap). Filter bisa di-scroll horizontal |
+| **Keyboard HP** | Input memakai `inputMode` dan `type` yang tepat (`tel`, `numeric`, `date`), sehingga keyboard yang muncul sesuai |
+| **Stabil** | Tidak ada pergeseran layout (CLS < 0.1): gambar selalu punya `width`/`height` atau `aspect-ratio` |
+| **Aksesibilitas gerak** | Semua animasi dimatikan jika pengguna memilih "kurangi gerakan" (`prefers-reduced-motion`) |
+
 ---
 
 ## 8. Keputusan Teknis
@@ -211,7 +233,10 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 | D4 | Kost tanpa kontak diarahkan ke nomor admin `628981548999` dengan label yang jelas | Rekomendasi |
 | D5 | Ikon: `lucide-react`, ditambah satu komponen SVG untuk logo WhatsApp (Lucide tidak menyediakan ikon brand) | Rekomendasi |
 | D6 | Tanpa state management global (Redux, Zustand) dan tanpa library form. Data statis cukup di-import, filter disimpan di URL | Rekomendasi |
-| D7 | Proyek Vite dibuat di root repo; file HTML/CSS/JS lama dipindah ke `legacy/` selama migrasi, lalu dihapus | Rekomendasi |
+| D7 | Proyek Vite dibuat di root repo; file HTML/CSS/JS lama dipindah ke `legacy/` selama migrasi, lalu dihapus | ✅ Selesai |
+| D8 | Navigasi mobile: bottom tab bar, bukan hamburger | ✅ Disepakati |
+| D9 | Animasi: CSS native (keyframes Tailwind, scroll-driven animation) dan React `<ViewTransition>`, **tanpa library animasi**. Baru tambahkan `motion` jika butuh gesture drag (misalnya bottom sheet yang bisa ditarik) | ✅ Diterapkan |
+| D10 | Router mode data (`createBrowserRouter` + `lazy`): halaman dimuat sebelum transisi dan posisi scroll dipulihkan (`<ScrollRestoration>`) | ✅ Diterapkan |
 
 ### Struktur folder
 
@@ -220,14 +245,15 @@ public/
   gambar/                 ← foto kost (WebP)
 src/
   main.jsx                ← createRoot + RouterProvider
-  App.jsx                 ← definisi route
+  router.jsx              ← definisi route (lazy per halaman)
   index.css               ← @import "tailwindcss" + @theme (token Design System)
   data/kosts.js
   lib/format.js           ← formatRupiah, waLink, normalizePhone
   lib/facilities.js       ← key fasilitas → label + ikon
+  hooks/useScrolled.js
   components/
-    layout/  Layout.jsx · Navbar.jsx · Footer.jsx · ScrollToTop.jsx
-    ui/      Button.jsx · Badge.jsx · Field.jsx · Chip.jsx · EmptyState.jsx
+    layout/  Layout.jsx · Navbar.jsx · BottomNav.jsx · Footer.jsx
+    ui/      Button.jsx · Badge.jsx · Field.jsx · Chip.jsx · EmptyState.jsx · Container.jsx · PageHeader.jsx
     kost/    KostCard.jsx · KostGrid.jsx · FilterBar.jsx · Gallery.jsx · CostSummary.jsx
   pages/
     HomePage.jsx · DetailPage.jsx · BookingPage.jsx · CalculatorPage.jsx · AboutPage.jsx · NotFoundPage.jsx
@@ -238,7 +264,7 @@ src/
 ## 9. Rencana Rilis (urutan kerja)
 
 1. **Setup:** `npm create vite@latest` (React), pasang Tailwind v4 (`@tailwindcss/vite`), React Router, lucide-react. Pindahkan file lama ke `legacy/` dan tulis README.
-2. **Fondasi:** token `@theme` dan komponen `ui/` (lihat Design System), `Layout` + Navbar (hamburger) + Footer, routing dan 404.
+2. **Fondasi:** token `@theme`, token animasi, dan komponen `ui/` (lihat Design System), `Layout` + Navbar + BottomNav + Footer, transisi halaman, routing dan 404.
 3. **Data:** migrasi ke `src/data/kosts.js` (§6), `lib/format.js`, kompres gambar ke `public/gambar`.
 4. **Beranda:** `KostCard`, pencarian, `FilterBar`, urutkan, state di URL.
 5. **Detail:** `Gallery`, CTA yang membawa `?kost=`, sticky CTA di mobile, fallback peta.
@@ -253,8 +279,10 @@ src/
 - [ ] `npm run build` sukses dan `npm run lint` tanpa error.
 - [ ] Tidak ada error di console di semua route.
 - [ ] Refresh langsung di `/kost/kostWullur` pada URL deploy tidak menghasilkan 404.
-- [ ] Navbar terbaca dan hamburger berfungsi di 360 px.
+- [ ] Navbar terbaca, bottom tab bar berfungsi, dan tidak tertutup home indicator di 360, 390, dan 412 px.
 - [ ] Tidak ada scroll horizontal di 360 px.
+- [ ] Semua poin §7.1 terpenuhi: feedback tekan, transisi halaman, skeleton, swipe galeri, keyboard HP sesuai.
+- [ ] Dengan "kurangi gerakan" aktif, tidak ada animasi yang berjalan.
 - [ ] Pencarian, filter, dan urutkan memberi hasil benar. URL bisa dibagikan.
 - [ ] Semua 20 kost bisa dibuka detailnya dan gambar tampil. ID salah menampilkan "Kost tidak ditemukan".
 - [ ] Pesan Sekarang → booking dengan kost sudah terpilih.
