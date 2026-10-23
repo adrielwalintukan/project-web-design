@@ -140,7 +140,7 @@ Semua halaman dibungkus `<Layout>` (Navbar + `<Outlet>` + Footer), dan scroll ke
 
 ### F4. Booking (`/booking`) — P0
 - Jika ada `?kost=<id>`, kost itu langsung terpilih.
-- Daftar pilih kost dengan pencarian. Di HP diganti menjadi `<select>` atau ditampilkan di atas form.
+- Pilih kost lewat `<select>` (dikelompokkan Putra/Putri) di semua ukuran layar, ditambah kartu kost terpilih. Daftar berpencarian tidak dibuat karena hanya ada 20 kost.
 - Field (masing-masing dengan `<label for>`, `id`, `name`): Nama lengkap, No. WhatsApp (pola `08…`/`62…`, 10–14 digit), Tanggal masuk (min = hari ini), Durasi (1–24 bulan).
 - Ringkasan biaya live: harga × durasi = total.
 - Validasi inline per field (pesan merah di bawah field, bukan `alert`). Cukup dengan state React biasa, tanpa library form.
@@ -257,7 +257,7 @@ src/
     layout/  Layout.jsx · Navbar.jsx · BottomNav.jsx · Footer.jsx
     ui/      Button.jsx · Badge.jsx · Field.jsx · Chip.jsx · EmptyState.jsx · Container.jsx · PageHeader.jsx
     kost/    KostCard.jsx · SearchBar.jsx · FilterBar.jsx · Gallery.jsx · CostSummary.jsx
-  lib/       format.js · facilities.js · filterKosts.js (+ *.test.js)
+  lib/       format.js · facilities.js · filterKosts.js · booking.js (+ *.test.js)
   pages/
     HomePage.jsx · DetailPage.jsx · BookingPage.jsx · CalculatorPage.jsx · AboutPage.jsx · NotFoundPage.jsx
 ```

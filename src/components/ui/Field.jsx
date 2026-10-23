@@ -1,6 +1,7 @@
 import { useId } from 'react'
 
-export default function Field({ label, error, prefix, id, className = '', ...props }) {
+// as="select" untuk dropdown (opsi lewat children)
+export default function Field({ as: Control = 'input', label, error, prefix, id, className = '', ...props }) {
   const autoId = useId()
   const inputId = id ?? autoId
   const errorId = `${inputId}-error`
@@ -16,7 +17,7 @@ export default function Field({ label, error, prefix, id, className = '', ...pro
             {prefix}
           </span>
         )}
-        <input
+        <Control
           id={inputId}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}

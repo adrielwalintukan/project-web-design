@@ -185,7 +185,7 @@ Satu layar sebaiknya hanya punya **satu** tombol `primary`.
 
 - Merender `<label htmlFor>`, `<input id aria-invalid aria-describedby>`, dan `<p id="…-error">` saat ada error. `id` dibuat otomatis dengan `useId()`.
 - Input: `h-12 w-full rounded-lg border border-line-strong bg-surface px-4 placeholder:text-subtle focus:border-primary-600 focus:ring-4 focus:ring-primary-600/15`. Saat error: `border-danger`, pesan `text-danger animate-fade-in`.
-- Varian `<SelectField>` untuk dropdown. Prop `prefix="Rp"` untuk input harga.
+- Dropdown: `<Field as="select">` dengan `<option>` sebagai children (gaya dan error sama). Prop `prefix="Rp"` untuk input harga.
 
 ### 6.3 `<SearchBar>` (hero)
 
@@ -289,7 +289,7 @@ Dipakai bersama di halaman Booking dan Kalkulator.
 |---|---|
 | **HomePage** | Navbar transparan → Hero (foto + overlay gelap solid `bg-ink/65`, tanpa gradien warna; h1 rata kiri, subjudul, SearchBar) → FilterBar sticky + jumlah hasil + Urutkan → grid KostCard → Footer. Bagian "Cara Kerja" 3 langkah sengaja dihapus (pola template generik). |
 | **DetailPage** | Link Kembali → Gallery → Info (judul, Badge, harga, meta) → Fasilitas `grid-cols-2` → Alamat + Peta → Kost serupa. Desktop: `lg:grid-cols-3`, konten `lg:col-span-2` dan info panel sticky di kolom kanan |
-| **BookingPage** | Judul → (mobile) kost terpilih / SelectField kost → Form → CostSummary → Submit. Desktop: `lg:grid-cols-12`, pilih kost `col-span-5`, form `col-span-7` |
+| **BookingPage** | PageHeader → `<Field as="select">` kost (dikelompokkan Putra/Putri, terisi dari `?kost=`) + kartu kost terpilih → Nama, WhatsApp, Tanggal masuk + Durasi (select 1–24) → CostSummary → Submit. Error tampil setelah submit pertama lalu live; fokus pindah ke field error pertama. Setelah WhatsApp dibuka, muncul pesan `role="status"`. Desktop: `lg:grid-cols-12`, pilih kost `col-span-5`, form `col-span-7` |
 | **CalculatorPage** | Kartu tengah `max-w-xl mx-auto`: pilih kost (opsional) → harga → durasi → biaya tambahan → CostSummary live |
 | **AboutPage** | PageHeader → Misi → 3 kartu keunggulan (`md:grid-cols-3`) → Cara kerja → Kontak |
 
