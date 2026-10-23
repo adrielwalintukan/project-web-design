@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+/* Token design system — lihat docs/DESIGN-SYSTEM.md §2 */
+@theme {
+  /* Netral hangat — dipakai untuk hampir semua permukaan dan teks */
+  --color-page: #faf9f7;
+  --color-surface: #ffffff;
+  --color-hover: #f5f5f4;
+  --color-tonal: #efeeea; /* chip, tombol sekunder, ubin fasilitas */
+  --color-line: #e7e5e4; /* pemisah dekoratif */
+  --color-line-strong: #8a847f; /* batas input, 3.7:1 */
+  --color-ink: #1c1917;
+  --color-muted: #57534e; /* teks sekunder, 7.3:1 */
+  --color-subtle: #78716c; /* placeholder & ikon nonaktif, 4.8:1 */
+
+  /* Satu aksen: hijau Klabat — hanya untuk CTA utama, link, dan status aktif */
+  --color-primary-50: #eaf2ee;
+  --color-primary-100: #d3e5db;
+  --color-primary-600: #1f5c46;
+  --color-primary-700: #174837;
+
+  --color-danger: #b42318;
+  --color-whatsapp: #1c9c4f; /* lebih gelap dari hijau brand agar ikon 3:1 di atas putih */
+
+  /* Tipografi */
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --text-hero: clamp(2rem, 1.3rem + 3.5vw, 3.25rem);
+  --text-hero--line-height: 1.1;
+
+  /* Radius besar ala aplikasi; bayangan lembut berlapis untuk elemen yang melayang */
+  --radius-card: 1.25rem;
+  --shadow-raise: 0 1px 2px rgb(28 25 23 / 0.04), 0 6px 20px rgb(28 25 23 / 0.06);
+  --shadow-float: 0 2px 6px rgb(28 25 23 / 0.06), 0 16px 40px rgb(28 25 23 / 0.14);
+
+  /* Motion — lihat docs/DESIGN-SYSTEM.md §8 */
+  --ease-out-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  --animate-fade-up: fade-up 400ms var(--ease-out-soft) both;
+  --animate-fade-in: fade-in 250ms ease-out both;
+  --animate-scale-in: scale-in 200ms var(--ease-out-soft) both;
+  --animate-shimmer: shimmer 1.4s linear infinite;
+  --animate-progress: progress 2s var(--ease-out-soft) forwards;
+}
+
+@layer base {
+  html {
+    @apply bg-page text-ink antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary-600;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(0.9);
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Jeda bertahap untuk daftar: style={{ '--i': index }} */
+@utility stagger {
+  animation-delay: calc(var(--i, 0) * 60ms);
+}
+
+/* Muncul saat masuk layar; tanpa dukungan scroll-driven animation, elemen langsung tampil */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+}
+
+@utility skeleton {
+  background: linear-gradient(90deg, var(--color-hover) 25%, var(--color-line) 50%, var(--color-hover) 75%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
+}
+
+/* Transisi antar halaman (React <ViewTransition default="page">) */
+::view-transition-old(.page) {
+  animation: 120ms ease-in both page-out;
+}
+::view-transition-new(.page) {
+  animation: 280ms var(--ease-out-soft) both page-in;
+}
+/* Foto kartu → galeri detail (<ViewTransition name="kost-…">) */
+::view-transition-group(*) {
+  animation-duration: 300ms;
+  animation-timing-function: var(--ease-out-soft);
+}
+@keyframes page-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
